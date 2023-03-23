@@ -39,8 +39,8 @@ public class Arene extends JFrame {
 		this.getContentPane().setPreferredSize(new Dimension(800, 600 + 25 + 140));
 	    this.pack();
 	    // interdiction de changer la taille
+	    
 		this.setResizable(false);
-		//dsf
 		setTitle("Arena");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		contentPane = new JPanel();
