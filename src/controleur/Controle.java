@@ -1,9 +1,11 @@
 package controleur;
 
 import vue.EntreeJeu;
+import vue.Arene;
+import vue.ChoixJoueur;
 
 /**
- * Contrôleur et point d'entrée de l'applicaton 
+ * Contrï¿½leur et point d'entrï¿½e de l'applicaton 
  * @author emds
  *
  */
@@ -12,8 +14,8 @@ public class Controle {
 	private EntreeJeu frmEntreeJeu ;
 
 	/**
-	 * Méthode de démarrage
-	 * @param args non utilisé
+	 * Mï¿½thode de dï¿½marrage
+	 * @param args non utilisï¿½
 	 */
 	public static void main(String[] args) {
 		new Controle();
@@ -23,8 +25,20 @@ public class Controle {
 	 * Constructeur
 	 */
 	private Controle() {
-		this.frmEntreeJeu = new EntreeJeu() ;
+		this.frmEntreeJeu = new EntreeJeu(this) ;
 		this.frmEntreeJeu.setVisible(true);
+	}
+	
+	public void evenementEntrÃ©eJeu(String info) {	
+		if( info.equals("serveur")) {
+			(new Arene()).setVisible(true);
+			this.frmEntreeJeu.dispose();
+		}
+		else {
+			(new ChoixJoueur()).setVisible(true);
+			this.frmEntreeJeu.dispose();
+			
+		}
 	}
 
 }
