@@ -1,6 +1,9 @@
 package controleur;
 
 import vue.EntreeJeu;
+import outils.connexion.AsyncResponse;
+import outils.connexion.Connection;
+import outils.connexion.ServeurSocket;
 import vue.Arene;
 import vue.ChoixJoueur;
 
@@ -9,7 +12,7 @@ import vue.ChoixJoueur;
  * @author emds
  *
  */
-public class Controle {
+public class Controle implements AsyncResponse {
 
 	private EntreeJeu frmEntreeJeu ;
 
@@ -29,16 +32,27 @@ public class Controle {
 		this.frmEntreeJeu.setVisible(true);
 	}
 	
+	/**
+	 * Choix création serveur ou rejoindre  
+	 * @param info
+	 */
+	
 	public void evenementEntréeJeu(String info) {	
 		if( info.equals("serveur")) {
 			(new Arene()).setVisible(true);
-			this.frmEntreeJeu.dispose();
+			ServeurSocket serveurSocket = new ServeurSocket(this, 6666);
+			//serveurSocket.run();
 		}
 		else {
 			(new ChoixJoueur()).setVisible(true);
-			this.frmEntreeJeu.dispose();
-			
-		}
+		}	
+		this.frmEntreeJeu.dispose();
+	}
+
+	@Override
+	public void reception(Connection connection, String ordre, Object info) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
