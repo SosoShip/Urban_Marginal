@@ -1,7 +1,11 @@
 package controleur;
 
 import vue.EntreeJeu;
+import modele.Jeu;
+import modele.JeuClient;
+import modele.JeuServeur;
 import outils.connexion.AsyncResponse;
+import outils.connexion.ClientSocket;
 import outils.connexion.Connection;
 import outils.connexion.ServeurSocket;
 import vue.Arene;
@@ -38,12 +42,16 @@ public class Controle implements AsyncResponse {
 	 */
 	
 	public void evenementEntréeJeu(String info) {	
+		Jeu infoJeu = null;
 		if( info.equals("serveur")) {
 			(new Arene()).setVisible(true);
+			infoJeu = new JeuServeur();
 			ServeurSocket serveurSocket = new ServeurSocket(this, 6666);
 		}
 		else {
 			(new ChoixJoueur()).setVisible(true);
+			infoJeu = new JeuClient();
+			ClientSocket clientSocket = new ClientSocket(this, info, 6666);
 		}	
 		this.frmEntreeJeu.dispose();
 	}
@@ -51,6 +59,10 @@ public class Controle implements AsyncResponse {
 	@Override
 	public void reception(Connection connection, String ordre, Object info) {
 		// TODO Auto-generated method stub
+		switch (ordre) {
+		case "connexion":
+			
+		}
 		
 	}
 
