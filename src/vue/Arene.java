@@ -1,6 +1,7 @@
 package vue;
 
 import java.awt.Dimension;
+import java.net.MalformedURLException;
 import java.net.URL;
 
 import javax.swing.ImageIcon;
@@ -61,8 +62,9 @@ public class Arene extends JFrame {
 		jspChat.setViewportView(txtChat);
 		
 		JLabel lblFond = new JLabel("");
-		String chemin = "fonds/fondarene.jpg";
+		String chemin = "fonds\\fondarene.jpg";
 		URL resource = getClass().getClassLoader().getResource(chemin);
+
 		lblFond.setIcon(new ImageIcon(resource));		
 		lblFond.setBounds(0, 0, 800, 600);
 		contentPane.add(lblFond);

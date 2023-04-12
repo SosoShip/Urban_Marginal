@@ -41,7 +41,6 @@ public class Controle implements AsyncResponse {
 		if( info.equals("serveur")) {
 			(new Arene()).setVisible(true);
 			ServeurSocket serveurSocket = new ServeurSocket(this, 6666);
-			//serveurSocket.run();
 		}
 		else {
 			(new ChoixJoueur()).setVisible(true);

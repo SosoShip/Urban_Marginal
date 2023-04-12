@@ -104,7 +104,7 @@ public class ChoixJoueur extends JFrame {
 		
 		JLabel lblFond = new JLabel("");
 		lblFond.setBounds(0, 0, 400, 275);
-		String chemin = "fonds/fondchoix.jpg";
+		String chemin = "fonds\\fondchoix.jpg";
 		URL resource = getClass().getClassLoader().getResource(chemin);
 		lblFond.setIcon(new ImageIcon(resource));		
 		contentPane.add(lblFond);
