@@ -19,6 +19,9 @@ import vue.ChoixJoueur;
 public class Controle implements AsyncResponse {
 
 	private EntreeJeu frmEntreeJeu ;
+	private ChoixJoueur choixJoueur;
+	private Arene arene;
+	private Jeu infoJeu;
 
 	/**
 	 * M�thode de d�marrage
@@ -41,27 +44,35 @@ public class Controle implements AsyncResponse {
 	 * @param info
 	 */
 	
-	public void evenementEntréeJeu(String info) {	
-		Jeu infoJeu = null;
+	public void evenementEntréeJeu(String info) {			
 		if( info.equals("serveur")) {
 			(new Arene()).setVisible(true);
 			infoJeu = new JeuServeur();
 			ServeurSocket serveurSocket = new ServeurSocket(this, 6666);
+			this.frmEntreeJeu.dispose();
 		}
 		else {
-			(new ChoixJoueur()).setVisible(true);
 			infoJeu = new JeuClient();
 			ClientSocket clientSocket = new ClientSocket(this, info, 6666);
 		}	
-		this.frmEntreeJeu.dispose();
 	}
 
 	@Override
-	public void reception(Connection connection, String ordre, Object info) {
+	// recupere une reponse d'un ordi distant 
+	public void reception(Connection connexion, String ordre, Object info) {
 		// TODO Auto-generated method stub
 		switch (ordre) {
+		// ordre connexion > serveur ou client
 		case "connexion":
-			
+			//connexion client> choix d'un jouer et creation d'une arene
+			if(infoJeu instanceof JeuClient) {
+				choixJoueur = new ChoixJoueur();
+				choixJoueur.setVisible(true);
+				//TOTO vraiment creer une nouvelle arene???
+				arene = new Arene();
+				arene.setVisible(false);
+				this.frmEntreeJeu.dispose();
+			}
 		}
 		
 	}
