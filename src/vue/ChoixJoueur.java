@@ -9,7 +9,11 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+
+import controleur.Controle;
+
 import java.awt.Dimension;
+import javax.swing.SwingConstants;
 
 /**
  * Frame du choix du joueur
@@ -17,21 +21,42 @@ import java.awt.Dimension;
  *
  */
 public class ChoixJoueur extends JFrame {
+	/**
+	 * Communication avec la classe controle
+	 */	
+	private Controle controle;
 
 	/**
 	 * Panel g�n�ral
 	 */
 	private JPanel contentPane;
+	
+	/**
+	 * Zone d'affichage du joueur à choisir :
+	 */
+	private JLabel lblPersonnage;
+
 	/**
 	 * Zone de saisie du pseudo
 	 */
 	private JTextField txtPseudo;
+	
+	/**
+	 * Numéro du personnage à afficher :
+	 */
+	private int numPersonnage = 1;
+	
+	/**
+	 * nombre de personnages maximum
+	 */
+	private int persoMax = 3;
 
 	/**
 	 * Clic sur la fl�che "pr�c�dent" pour afficher le personnage pr�c�dent
 	 */
 	private void lblPrecedent_clic() {
 		System.out.println("Clic sur precedent");
+		personnagePrecedant();
 	}
 	
 	/**
@@ -39,6 +64,7 @@ public class ChoixJoueur extends JFrame {
 	 */
 	private void lblSuivant_clic() {
 		System.out.println("Clic sur suivant");
+		personnageSuivant();
 	}
 	
 	/**
@@ -49,7 +75,40 @@ public class ChoixJoueur extends JFrame {
 		this.dispose();
 	}
 
-
+	private void affichePerso(int numPersonnage) {
+		String chemin = "personnages\\perso"+numPersonnage+"marche1d1.gif";
+		URL resource = getClass().getClassLoader().getResource(chemin);
+		lblPersonnage.setIcon(new ImageIcon(resource));
+	}
+	
+	/**
+	 * Personnage suivant :
+	 */
+	private void personnageSuivant() {		
+		if (numPersonnage < persoMax) {
+			numPersonnage ++;		
+		}
+		else {
+			numPersonnage = 1;			
+		}
+		affichePerso(numPersonnage);
+	}
+	
+	/**
+	 * personnage precedant :
+	 */
+	private void personnagePrecedant() {
+		
+		if (numPersonnage > 1) {
+			numPersonnage --;		
+		}
+		else {
+			numPersonnage = persoMax;			
+		}
+		affichePerso(numPersonnage);
+	}
+	
+	
 	/**
 	 * Create the frame.
 	 */
@@ -90,6 +149,11 @@ public class ChoixJoueur extends JFrame {
 			}
 		});
 		
+		lblPersonnage = new JLabel("New label");
+		lblPersonnage.setHorizontalAlignment(SwingConstants.CENTER);
+		lblPersonnage.setBounds(142, 115, 120, 117);
+		contentPane.add(lblPersonnage);
+		
 		txtPseudo = new JTextField();
 		txtPseudo.setBounds(142, 245, 120, 20);
 		contentPane.add(txtPseudo);
@@ -107,11 +171,14 @@ public class ChoixJoueur extends JFrame {
 		String chemin = "fonds\\fondchoix.jpg";
 		URL resource = getClass().getClassLoader().getResource(chemin);
 		lblFond.setIcon(new ImageIcon(resource));		
-		contentPane.add(lblFond);
-		
+		contentPane.add(lblFond);				
+						
 		// positionnement sur la zone de saisie
 		txtPseudo.requestFocus();
+		
+		// Affichage du premier personnage :
+		numPersonnage = 1;
+		affichePerso(numPersonnage);
 
 	}
-
 }
