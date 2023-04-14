@@ -22,6 +22,7 @@ public class Controle implements AsyncResponse {
 	private ChoixJoueur choixJoueur;
 	private Arene arene;
 	private Jeu infoJeu;
+	private int port = 6666;
 
 	/**
 	 * M�thode de d�marrage
@@ -48,12 +49,12 @@ public class Controle implements AsyncResponse {
 		if( info.equals("serveur")) {
 			(new Arene()).setVisible(true);
 			infoJeu = new JeuServeur();
-			ServeurSocket serveurSocket = new ServeurSocket(this, 6666);
+			ServeurSocket serveurSocket = new ServeurSocket(this, port);
 			this.frmEntreeJeu.dispose();
 		}
 		else {
 			infoJeu = new JeuClient();
-			ClientSocket clientSocket = new ClientSocket(this, info, 6666);
+			ClientSocket clientSocket = new ClientSocket(this, info, port);
 		}	
 	}
 
