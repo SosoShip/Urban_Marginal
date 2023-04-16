@@ -12,6 +12,7 @@ import javax.swing.JTextField;
 
 import controleur.Controle;
 
+import java.awt.Cursor;
 import java.awt.Dimension;
 import javax.swing.SwingConstants;
 
@@ -108,6 +109,21 @@ public class ChoixJoueur extends JFrame {
 		affichePerso(numPersonnage);
 	}
 	
+	/**
+	 * Souris normale sur les zones non clickables :
+	 */
+	private void sourisNormale() {
+		contentPane.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+	}
+	
+	
+	/*
+	 * Souris en forme de main sur les zones clickables :
+	 */
+	private void sourisMain() {
+		contentPane.setCursor(new Cursor(Cursor.HAND_CURSOR));
+	}
+	
 	
 	/**
 	 * Create the frame.
@@ -129,7 +145,16 @@ public class ChoixJoueur extends JFrame {
 		lblPrecedent.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				lblPrecedent_clic();
+				lblPrecedent_clic();				
+			}
+			// Changement de forme de la souris :
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				sourisMain();
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				sourisNormale();
 			}
 		});
 		
@@ -139,13 +164,31 @@ public class ChoixJoueur extends JFrame {
 			public void mouseClicked(MouseEvent e) {
 				lblSuivant_clic();
 			}
+			// Changement de forme de la souris :
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				sourisMain();
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				sourisNormale();
+			}
 		});
 		
 		JLabel lblGo = new JLabel("");
 		lblGo.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				lblGo_clic();
+				lblGo_clic();				
+			}
+			// Changement de forme de la souris :
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				sourisMain();
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				sourisNormale();
 			}
 		});
 		
