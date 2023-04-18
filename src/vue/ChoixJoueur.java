@@ -7,6 +7,7 @@ import java.net.URL;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -72,8 +73,19 @@ public class ChoixJoueur extends JFrame {
 	 * Clic sur GO pour envoyer les informations
 	 */
 	private void lblGo_clic() {
-		(new Arene()).setVisible(true);
-		this.dispose();
+		
+		
+		
+		//Verification de l'existence d'un pseudo :
+		if (txtPseudo.getText() != null) {
+			controle.evenementChoixJoueur(txtPseudo, numPersonnage);
+			controle.getArene().setVisible(true);
+			this.dispose();
+		}
+		else {
+			JOptionPane.showMessageDialog(null, "La saisie du pseudo est obligatoire");
+			txtPseudo.grabFocus();
+		}
 	}
 
 	private void affichePerso(int numPersonnage) {

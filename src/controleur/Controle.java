@@ -1,6 +1,9 @@
 package controleur;
 
 import vue.EntreeJeu;
+
+import javax.swing.JTextField;
+
 import modele.Jeu;
 import modele.JeuClient;
 import modele.JeuServeur;
@@ -57,6 +60,10 @@ public class Controle implements AsyncResponse {
 			ClientSocket clientSocket = new ClientSocket(this, info, port);
 		}	
 	}
+	
+	public void evenementChoixJoueur(JTextField txtPseudo, int numPersonnage) {
+		
+	}
 
 	@Override
 	// recupere une reponse d'un ordi distant 
@@ -71,11 +78,15 @@ public class Controle implements AsyncResponse {
 				choixJoueur.setVisible(true);
 				//TOTO vraiment creer une nouvelle arene???
 				arene = new Arene();
-				arene.setVisible(false);
+				getArene().setVisible(false);
 				this.frmEntreeJeu.dispose();
 			}
 		}
 		
+	}
+
+	public Arene getArene() {
+		return arene;
 	}
 
 }
