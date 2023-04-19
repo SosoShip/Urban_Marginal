@@ -72,20 +72,18 @@ public class ChoixJoueur extends JFrame {
 	/**
 	 * Clic sur GO pour envoyer les informations
 	 */
-	private void lblGo_clic() {
-		
-		
-		
+	private void lblGo_clic() {		
 		//Verification de l'existence d'un pseudo :
-		if (txtPseudo.getText() != null) {
+		if (!txtPseudo.getText().isEmpty()) {
 			controle.evenementChoixJoueur(txtPseudo, numPersonnage);
-			controle.getArene().setVisible(true);
+			controle.getArene().setVisible(true);	
 			this.dispose();
 		}
 		else {
 			JOptionPane.showMessageDialog(null, "La saisie du pseudo est obligatoire");
 			txtPseudo.grabFocus();
 		}
+		
 	}
 
 	private void affichePerso(int numPersonnage) {
@@ -140,7 +138,7 @@ public class ChoixJoueur extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public ChoixJoueur() {
+	public ChoixJoueur(Controle controle) {
 		// Dimension de la frame en fonction de son contenu
 		this.getContentPane().setPreferredSize(new Dimension(400, 275));
 	    this.pack();
@@ -152,6 +150,7 @@ public class ChoixJoueur extends JFrame {
 		contentPane = new JPanel();
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+		this.controle = controle;
 		
 		JLabel lblPrecedent = new JLabel("");
 		lblPrecedent.addMouseListener(new MouseAdapter() {

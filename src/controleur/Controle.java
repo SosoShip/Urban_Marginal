@@ -26,6 +26,10 @@ public class Controle implements AsyncResponse {
 	private Arene arene;
 	private Jeu infoJeu;
 	private int port = 6666;
+	
+	public Arene getArene() {
+		return arene;
+	}
 
 	/**
 	 * M�thode de d�marrage
@@ -68,13 +72,12 @@ public class Controle implements AsyncResponse {
 	@Override
 	// recupere une reponse d'un ordi distant 
 	public void reception(Connection connexion, String ordre, Object info) {
-		// TODO Auto-generated method stub
 		switch (ordre) {
 		// ordre connexion > serveur ou client
 		case "connexion":
-			//connexion client> choix d'un jouer et creation d'une arene
+			//connexion client> choix d'un joueur et creation d'une arene
 			if(infoJeu instanceof JeuClient) {
-				choixJoueur = new ChoixJoueur();
+				choixJoueur = new ChoixJoueur(this);
 				choixJoueur.setVisible(true);
 				//TOTO vraiment creer une nouvelle arene???
 				arene = new Arene();
@@ -85,8 +88,6 @@ public class Controle implements AsyncResponse {
 		
 	}
 
-	public Arene getArene() {
-		return arene;
-	}
+	
 
 }
