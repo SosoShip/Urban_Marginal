@@ -1,9 +1,15 @@
 package modele;
 
+
+
 import java.util.ArrayList;
+import java.util.Hashtable;
+
+import controleur.Controle;
+import outils.connexion.Connection;
 
 /**
- * Gestion du jeu côté serveur
+ * Gestion du jeu cï¿½tï¿½ serveur
  *
  */
 public class JeuServeur extends Jeu {
@@ -15,20 +21,24 @@ public class JeuServeur extends Jeu {
 	/**
 	 * Collection de joueurs
 	 */
-	private ArrayList<Joueur> lesJoueurs = new ArrayList<Joueur>() ;
+
+	private Hashtable<Connection, Joueur> lesJoueurs = new Hashtable<Connection, Joueur>() ;
 	
+
 	/**
 	 * Constructeur
 	 */
-	public JeuServeur() {
+	public JeuServeur(Controle controle) {
+		this.controleJeu = controle;
 	}
 	
 	@Override
-	public void connexion() {
+	public void connexion(Connection connexion) {
+		lesJoueurs.put(connexion, new Joueur());
 	}
 
 	@Override
-	public void reception() {
+	public void reception(Connection connexion, Object object) {
 	}
 	
 	@Override
@@ -37,15 +47,16 @@ public class JeuServeur extends Jeu {
 
 	/**
 	 * Envoi d'une information vers tous les clients
-	 * fais appel plusieurs fois à l'envoi de la classe Jeu
+	 * fais appel plusieurs fois ï¿½ l'envoi de la classe Jeu
 	 */
 	public void envoi() {
 	}
 
 	/**
-	 * Génération des murs
+	 * Gï¿½nï¿½ration des murs
 	 */
 	public void constructionMurs() {
 	}
+	
 	
 }

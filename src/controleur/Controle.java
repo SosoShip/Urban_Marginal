@@ -2,6 +2,8 @@ package controleur;
 
 import vue.EntreeJeu;
 
+import java.net.Socket;
+
 import javax.swing.JTextField;
 
 import modele.Jeu;
@@ -24,7 +26,7 @@ public class Controle implements AsyncResponse {
 	private EntreeJeu frmEntreeJeu ;
 	private ChoixJoueur choixJoueur;
 	private Arene arene;
-	private Jeu infoJeu;
+	private Jeu leJeu;
 	private int port = 6666;
 	
 	public Arene getArene() {
@@ -42,7 +44,7 @@ public class Controle implements AsyncResponse {
 	/**
 	 * Constructeur
 	 */
-	private Controle() {
+	public Controle() {
 		this.frmEntreeJeu = new EntreeJeu(this) ;
 		this.frmEntreeJeu.setVisible(true);
 	}
@@ -55,18 +57,19 @@ public class Controle implements AsyncResponse {
 	public void evenementEntréeJeu(String info) {			
 		if( info.equals("serveur")) {
 			(new Arene()).setVisible(true);
-			infoJeu = new JeuServeur();
+			leJeu = new JeuServeur(this);
 			ServeurSocket serveurSocket = new ServeurSocket(this, port);
+			//leJeu = new JeuServeur();
 			this.frmEntreeJeu.dispose();
 		}
 		else {
-			infoJeu = new JeuClient();
+			leJeu = new JeuClient(this);
 			ClientSocket clientSocket = new ClientSocket(this, info, port);
 		}	
 	}
 	
 	public void evenementChoixJoueur(JTextField txtPseudo, int numPersonnage) {
-		
+		((JeuClient)leJeu).envoi("pseudo"+"*"+txtPseudo+"*"+numPersonnage);	
 	}
 
 	@Override
@@ -76,7 +79,7 @@ public class Controle implements AsyncResponse {
 		// ordre connexion > serveur ou client
 		case "connexion":
 			//connexion client> choix d'un joueur et creation d'une arene
-			if(infoJeu instanceof JeuClient) {
+			if(leJeu instanceof JeuClient) {
 				choixJoueur = new ChoixJoueur(this);
 				choixJoueur.setVisible(true);
 				//TOTO vraiment creer une nouvelle arene???
@@ -84,10 +87,17 @@ public class Controle implements AsyncResponse {
 				getArene().setVisible(false);
 				this.frmEntreeJeu.dispose();
 			}
+			// Connection avec serveur <> client  :
+			leJeu.connexion(connexion);
+			
+		case "reception":	
+			leJeu.reception(connexion, info);
 		}
 		
 	}
 
-	
+	public void envoi (Connection connexion, Object pseudo) {
+		
+	}
 
 }

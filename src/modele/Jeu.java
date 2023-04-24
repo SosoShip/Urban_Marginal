@@ -1,30 +1,41 @@
 package modele;
 
+import controleur.Controle;
+import outils.connexion.Connection;
+
 /**
- * Informations et méthodes communes aux jeux client et serveur
+ * Informations et mï¿½thodes communes aux jeux client et serveur
  *
  */
 public abstract class Jeu {
+	
+	/**
+	 * Communication avec la classe controle :
+	 */
+	protected Controle controleJeu;
 
 	/**
-	 * Réception d'une connexion (pour communiquer avec un ordinateur distant)
+	 * Rï¿½ception d'une connexion (pour communiquer avec un ordinateur distant)
 	 */
-	public abstract void connexion() ;
+	public abstract void connexion(Connection connexion) ;
 	
 	/**
-	 * Réception d'une information provenant de l'ordinateur distant
+	 * Rï¿½ception d'une information provenant de l'ordinateur distant
 	 */
-	public abstract void reception() ;
+	public abstract void reception(Connection connexion, Object object) ;
 	
 	/**
-	 * Déconnexion de l'ordinateur distant
+	 * Dï¿½connexion de l'ordinateur distant
 	 */
 	public abstract void deconnexion() ;
 	
 	/**
 	 * Envoi d'une information vers un ordinateur distant
 	 */
-	public void envoi() {
+	public void envoi( Connection connexion, Object pseudo) {
+		controleJeu.envoi(connexion, pseudo);
 	}
+	
+	
 	
 }
