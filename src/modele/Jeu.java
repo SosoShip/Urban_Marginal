@@ -22,7 +22,7 @@ public abstract class Jeu {
 	/**
 	 * R�ception d'une information provenant de l'ordinateur distant
 	 */
-	public abstract void reception(Connection connexion, Object object) ;
+	public abstract void reception(Connection connexion, Object info) ;
 	
 	/**
 	 * D�connexion de l'ordinateur distant

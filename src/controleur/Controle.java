@@ -64,12 +64,13 @@ public class Controle implements AsyncResponse {
 		}
 		else {
 			leJeu = new JeuClient(this);
-			ClientSocket clientSocket = new ClientSocket(this, info, port);
+			ClientSocket clientSocket = new ClientSocket(this, info, port);			
 		}	
 	}
 	
-	public void evenementChoixJoueur(JTextField txtPseudo, int numPersonnage) {
-		((JeuClient)leJeu).envoi("pseudo"+"*"+txtPseudo+"*"+numPersonnage);	
+	public void evenementChoixJoueur(String txtPseudo, int numPersonnage) {		
+		System.out.println(txtPseudo);
+		((JeuClient)leJeu).envoi("pseudo"+"~"+txtPseudo+"~"+numPersonnage);	
 	}
 
 	@Override
@@ -88,16 +89,18 @@ public class Controle implements AsyncResponse {
 				this.frmEntreeJeu.dispose();
 			}
 			// Connection avec serveur <> client  :
-			leJeu.connexion(connexion);
+			leJeu.connexion(connexion); 
+			break;
 			
 		case "reception":	
 			leJeu.reception(connexion, info);
+			break;
 		}
 		
 	}
 
 	public void envoi (Connection connexion, Object pseudo) {
-		
+		connexion.envoi(pseudo);
 	}
 
 }

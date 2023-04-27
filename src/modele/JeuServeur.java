@@ -18,10 +18,10 @@ public class JeuServeur extends Jeu {
 	 * Collection de murs
 	 */
 	private ArrayList<Mur> lesMurs = new ArrayList<Mur>() ;
+	
 	/**
 	 * Collection de joueurs
 	 */
-
 	private Hashtable<Connection, Joueur> lesJoueurs = new Hashtable<Connection, Joueur>() ;
 	
 
@@ -38,7 +38,23 @@ public class JeuServeur extends Jeu {
 	}
 
 	@Override
-	public void reception(Connection connexion, Object object) {
+	public void reception(Connection connexion, Object info) {
+		String infoDuPerso[] = ((String)info).split("~"); 
+		
+		switch(infoDuPerso[0]) {
+		case "pseudo":
+			// récupération du numero de personnage (cast en int)
+			int numPerso = 0;
+			try {
+				numPerso = Integer.parseInt(infoDuPerso[2]);
+			}
+			catch (Exception ex){
+	            ex.printStackTrace();
+	            return;
+			}
+			//Initialisation du joueur :
+			lesJoueurs.get(connexion).initPerso(infoDuPerso[1],  numPerso);
+		}
 	}
 	
 	@Override

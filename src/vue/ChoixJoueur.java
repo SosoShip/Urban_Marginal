@@ -75,7 +75,7 @@ public class ChoixJoueur extends JFrame {
 	private void lblGo_clic() {		
 		//Verification de l'existence d'un pseudo :
 		if (!txtPseudo.getText().isEmpty()) {
-			controle.evenementChoixJoueur(txtPseudo, numPersonnage);
+			controle.evenementChoixJoueur(txtPseudo.getText(), numPersonnage);
 			controle.getArene().setVisible(true);	
 			this.dispose();
 		}

@@ -24,7 +24,7 @@ public class JeuClient extends Jeu {
 	}
 
 	@Override
-	public void reception(Connection connexion, Object object) {
+	public void reception(Connection connexion, Object info) {
 	}
 	
 	@Override
