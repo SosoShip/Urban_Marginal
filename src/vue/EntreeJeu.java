@@ -7,6 +7,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+
+import controleur.Constante;
 import controleur.Controle;
 
 /**
@@ -33,7 +35,7 @@ public class EntreeJeu extends JFrame {
 	 * clic sur le bouton Start pour lancer le serveur
 	 */
 	private void btnStart_clic() {
-		controle.evenementEntréeJeu("serveur");		
+		controle.evenementEntréeJeu(Constante.jeuServeur);		
 	}
 	
 	/**

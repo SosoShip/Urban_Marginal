@@ -55,7 +55,7 @@ public class Controle implements AsyncResponse {
 	 */
 	
 	public void evenementEntréeJeu(String info) {			
-		if( info.equals("serveur")) {
+		if( info.equals(Constante.jeuServeur)) {
 			(new Arene()).setVisible(true);
 			leJeu = new JeuServeur(this);
 			ServeurSocket serveurSocket = new ServeurSocket(this, port);
@@ -70,7 +70,7 @@ public class Controle implements AsyncResponse {
 	
 	public void evenementChoixJoueur(String txtPseudo, int numPersonnage) {		
 		System.out.println(txtPseudo);
-		((JeuClient)leJeu).envoi("pseudo"+"~"+txtPseudo+"~"+numPersonnage);	
+		((JeuClient)leJeu).envoi(Constante.InfoDuPerso+Constante.separation+txtPseudo+Constante.separation+numPersonnage);	
 	}
 
 	@Override
@@ -78,7 +78,7 @@ public class Controle implements AsyncResponse {
 	public void reception(Connection connexion, String ordre, Object info) {
 		switch (ordre) {
 		// ordre connexion > serveur ou client
-		case "connexion":
+		case Constante.laConnexion:
 			//connexion client> choix d'un joueur et creation d'une arene
 			if(leJeu instanceof JeuClient) {
 				choixJoueur = new ChoixJoueur(this);
@@ -92,7 +92,7 @@ public class Controle implements AsyncResponse {
 			leJeu.connexion(connexion); 
 			break;
 			
-		case "reception":	
+		case Constante.lareception:	
 			leJeu.reception(connexion, info);
 			break;
 		}

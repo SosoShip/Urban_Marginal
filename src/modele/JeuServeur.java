@@ -4,9 +4,10 @@ package modele;
 
 import java.util.ArrayList;
 import java.util.Hashtable;
-
+import controleur.Constante;
 import controleur.Controle;
 import outils.connexion.Connection;
+import controleur.Constante;
 
 /**
  * Gestion du jeu c�t� serveur
@@ -39,10 +40,10 @@ public class JeuServeur extends Jeu {
 
 	@Override
 	public void reception(Connection connexion, Object info) {
-		String infoDuPerso[] = ((String)info).split("~"); 
+		String infoDuPerso[] = ((String)info).split(Constante.separation); 
 		
 		switch(infoDuPerso[0]) {
-		case "pseudo":
+		case Constante.InfoDuPerso:
 			// récupération du numero de personnage (cast en int)
 			int numPerso = 0;
 			try {

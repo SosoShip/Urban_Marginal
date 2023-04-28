@@ -1,5 +1,7 @@
 package modele;
 
+import controleur.Constante;
+
 /**
  * Gestion des joueurs
  *
@@ -9,24 +11,24 @@ public class Joueur extends Objet {
 	/**
 	 * vie de d�part pour tous les joueurs
 	 */
-	private static final int MAXVIE = 10 ;
+	//private static final int MAXVIE = 10 ;
 	/**
 	 * gain de points de vie lors d'une attaque
 	 */
-	private static final int GAIN = 1 ; 
+	//private static final int GAIN = 1 ; 
 	/**
 	 * perte de points de vie lors d'une attaque
 	 */
-	private static final int PERTE = 2 ; 
+	//private static final int PERTE = 2 ; 
 	
 	/**
 	 * pseudo saisi
 	 */
-	private String pseudo ;
+	//private String pseudo ;
 	/**
 	 * n� correspondant au personnage (avatar) pour le fichier correspondant
 	 */
-	private int numPerso ; 
+	//private int numPerso ; 
 	/**
 	 * instance de JeuServeur pour communiquer avec lui
 	 */
@@ -58,9 +60,10 @@ public class Joueur extends Objet {
 	 * Initialisation d'un joueur (pseudo et num�ro, calcul de la 1�re position, affichage, cr�ation de la boule)
 	 */
 	public void initPerso(Object pseudoDuJoueur, int numDuPerso) {
-		 pseudo = pseudoDuJoueur.toString();
-		 numPerso = numDuPerso;
-		 System.out.println("joueur "+pseudo+" - num perso "+numPerso+" créé");
+		Constante.pseudo = pseudoDuJoueur.toString();
+		 Constante.numPerso = numDuPerso;
+		 // TODO pour le test
+		 System.out.println("joueur "+Constante.pseudo+" - num perso "+Constante.numPerso+" créé");
 	}
 
 	/**

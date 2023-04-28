@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import controleur.Constante;
 
 /**
  * Gestion de la connexion entre 2 ordinateurs distants
@@ -49,7 +50,7 @@ public class Connection extends Thread {
 		// d�marrage du thread d'�coute (attente d'un message de l'ordi distant)
 		this.start() ;
 		// envoi de l'instance de connexion vers la classe qui impl�mente AsyncResponse pour r�cup�rer la r�ponse
-		this.delegate.reception(this, "connexion", null);
+		this.delegate.reception(this, Constante.laConnexion, null);
 	}
 	
 	/**
@@ -83,14 +84,14 @@ public class Connection extends Thread {
 				// r�ception d'un objet sur le canal d'entr�e
 				reception = in.readObject();
 				// envoi de l'information re�ue vers la classe qui impl�mente AsyncResponse pour r�cup�rer la r�ponse
-				delegate.reception(this, "reception", reception);
+				delegate.reception(this, Constante.lareception, reception);
 			} catch (ClassNotFoundException e) {
 				// probl�me grave qui ne devrait pas se produire : arr�t du programme
 				System.out.println("erreur de classe sur reception : "+e);
 				System.exit(0);
 			} catch (IOException e) {
 				// envoi de l'information de d�connexion  vers la classe qui impl�mente AsyncResponse pour r�cup�rer la r�ponse
-				delegate.reception(this, "deconnexion", null);
+				delegate.reception(this, Constante.laDeConnexion, null);
 				// demande d'arr�ter de boucler sur l'attente d'une r�ponse
 				inOk = false ;
 				// l'ordinateur distant n'est plus accessible
