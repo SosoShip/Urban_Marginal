@@ -12,6 +12,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
+import modele.Mur;
+
 /**
  * frame de l'ar�ne du jeu
  * @author emds
@@ -31,6 +33,10 @@ public class Arene extends JFrame {
 	 * Zone d'affichage du t'chat
 	 */
 	private JTextArea txtChat ;
+	/**
+	 * Zone d'affichage des murs :
+	 */
+	private JPanel jpnMurs;
 
 	/**
 	 * Create the frame.
@@ -47,6 +53,13 @@ public class Arene extends JFrame {
 		contentPane = new JPanel();
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+		
+		jpnMurs = new JPanel();
+		jpnMurs.setBounds(0, 0, 800, 600);
+		jpnMurs.setOpaque(false);
+		jpnMurs.repaint();
+		contentPane.add(jpnMurs);
+		jpnMurs.setLayout(null);
 	
 		txtSaisie = new JTextField();
 		txtSaisie.setBounds(0, 600, 800, 25);
@@ -67,8 +80,12 @@ public class Arene extends JFrame {
 
 		lblFond.setIcon(new ImageIcon(resource));		
 		lblFond.setBounds(0, 0, 800, 600);
-		contentPane.add(lblFond);
-		
+		contentPane.add(lblFond);		
 	}
+	
+	public void ajoutMurs(Object unMur) {
+		jpnMurs.add((JLabel)unMur);
+	}
+	
 
 }

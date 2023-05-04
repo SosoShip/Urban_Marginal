@@ -1,5 +1,13 @@
 package modele;
 
+import java.net.URL;
+
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+
+import controleur.Common;
+import controleur.Constante;
+
 /**
  * Gestion des murs
  *
@@ -10,6 +18,26 @@ public class Mur extends Objet {
 	 * Constructeur
 	 */
 	public Mur() {
+		
+		
+		// Nombres aléatoires pour placer les murs sur X et y :
+		int minX = 0 + Constante.tailleDesMurs;
+		int maxX = Constante.longeurArene;
+		posX = Common.randXY(minX, maxX);
+
+		int minY = 0 + Constante.tailleDesMurs;
+		int maxY = Constante.hauteurArene;
+		posY = Common.randXY(minY, maxY);	
+		
+		// label deffinissant les murs :
+		lblMur = new JLabel("");
+		lblMur.setBounds(posX, posY, Constante.tailleDesMurs, Constante.tailleDesMurs);
+		
+		String chemin = "murs\\mur.gif";
+		URL resource = getClass().getClassLoader().getResource(chemin);
+		lblMur.setIcon(new ImageIcon(resource));		
+		}
 	}
+			
 	
-}
+

@@ -16,6 +16,7 @@ import outils.connexion.ServeurSocket;
 import vue.Arene;
 import vue.ChoixJoueur;
 
+
 /**
  * Contr�leur et point d'entr�e de l'applicaton 
  * @author emds
@@ -55,22 +56,42 @@ public class Controle implements AsyncResponse {
 	 */
 	
 	public void evenementEntréeJeu(String info) {			
-		if( info.equals(Constante.jeuServeur)) {
-			(new Arene()).setVisible(true);
+		if( info.equals(Constante.jeuServeur)) {				
 			leJeu = new JeuServeur(this);
 			ServeurSocket serveurSocket = new ServeurSocket(this, port);
-			//leJeu = new JeuServeur();
-			this.frmEntreeJeu.dispose();
+			
+			arene = new Arene();
+			((JeuServeur)leJeu).constructionMurs();
+			arene.setVisible(true);
+			
+			this.frmEntreeJeu.dispose();						
 		}
 		else {
 			leJeu = new JeuClient(this);
 			ClientSocket clientSocket = new ClientSocket(this, info, port);			
-		}	
+		}
+		
 	}
 	
 	public void evenementChoixJoueur(String txtPseudo, int numPersonnage) {		
 		System.out.println(txtPseudo);
-		((JeuClient)leJeu).envoi(Constante.InfoDuPerso+Constante.separation+txtPseudo+Constante.separation+numPersonnage);	
+		((JeuClient)leJeu).envoi(Constante.infoDuPerso+Constante.separation+txtPseudo+Constante.separation+numPersonnage);	
+	}
+	
+	/**
+	 * Agencement de l'arene coté serveur :
+	 * @param ordre
+	 * @param info
+	 */
+	public void evenementJeuServeur(String ordre, Object info) {
+		switch (ordre) {
+		case Constante.ordreAjoutMur: 			
+			arene.ajoutMurs(info);
+			break;
+					
+		default:
+			throw new IllegalArgumentException("Unexpected value: " + ordre);
+		}
 	}
 
 	@Override
@@ -87,6 +108,9 @@ public class Controle implements AsyncResponse {
 				arene = new Arene();
 				getArene().setVisible(false);
 				this.frmEntreeJeu.dispose();
+				
+				
+				
 			}
 			// Connection avec serveur <> client  :
 			leJeu.connexion(connexion); 
@@ -101,6 +125,6 @@ public class Controle implements AsyncResponse {
 
 	public void envoi (Connection connexion, Object pseudo) {
 		connexion.envoi(pseudo);
-	}
+	}	
 
 }

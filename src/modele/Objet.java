@@ -1,24 +1,31 @@
 package modele;
 
+import javax.swing.JLabel;
+
 /**
- * Informations communes à tous les objets (joueurs, murs, boules)
- * permet de mémoriser la position de l'objet et de gérer les  collisions
+ * Informations communes ï¿½ tous les objets (joueurs, murs, boules)
+ * permet de mï¿½moriser la position de l'objet et de gï¿½rer les  collisions
+ * @param <get>
  *
  */
-public abstract class Objet {
+public abstract class Objet<get> {
 
 	/**
 	 * position X de l'objet
 	 */
-	protected Integer posX ;
+	protected int posX ;
 	/**
 	 * position Y de l'objet
 	 */
-	protected Integer posY ;
+	protected int posY ;
+	/**
+	 * JLabel utilisÃ©s par toute les classes :
+	 */
+	protected JLabel lblMur;
 	
 	/**
-	 * contrôle si l'objet actuel touche l'objet passé en paramètre
-	 * @param objet contient l'objet à contrôler
+	 * contrï¿½le si l'objet actuel touche l'objet passï¿½ en paramï¿½tre
+	 * @param objet contient l'objet ï¿½ contrï¿½ler
 	 * @return true si les 2 objets se touchent
 	 */
 	public Boolean toucheObjet (Objet objet) {
