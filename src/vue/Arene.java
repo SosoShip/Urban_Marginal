@@ -54,12 +54,13 @@ public class Arene extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		jpnMurs = new JPanel();
-		jpnMurs.setBounds(0, 0, 800, 600);
-		jpnMurs.setOpaque(false);
-		jpnMurs.repaint();
-		contentPane.add(jpnMurs);
-		jpnMurs.setLayout(null);
+		this.jpnMurs = new JPanel();
+		setJpnMurs(new JPanel());
+		getJpnMurs().setBounds(0, 0, 800, 600);
+		getJpnMurs().setOpaque(false);
+		getJpnMurs().repaint();
+		contentPane.add(getJpnMurs());
+		getJpnMurs().setLayout(null);
 	
 		txtSaisie = new JTextField();
 		txtSaisie.setBounds(0, 600, 800, 25);
@@ -84,7 +85,16 @@ public class Arene extends JFrame {
 	}
 	
 	public void ajoutMurs(Object unMur) {
-		jpnMurs.add((JLabel)unMur);
+		getJpnMurs().add((JLabel)unMur);
+	}
+
+	public JPanel getJpnMurs() {
+		return jpnMurs;
+	}
+
+	public void setJpnMurs(JPanel jpnMurs) {
+		this.jpnMurs.add(jpnMurs);
+		this.jpnMurs.repaint();
 	}
 	
 

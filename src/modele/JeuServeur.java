@@ -44,6 +44,8 @@ public class JeuServeur extends Jeu {
 		
 		switch(infoDuPerso[0]) {
 		case Constante.infoDuPerso:
+			// Envoi du num de connexion client afin d'afficher les murs coté client
+			controleJeu.evenementJeuServeur(Constante.ordreAjoutPanelMurs, (Object)connexion);
 			// récupération du numero de personnage (cast en int)
 			int numPerso = 0;
 			try {

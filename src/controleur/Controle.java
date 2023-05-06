@@ -4,6 +4,7 @@ import vue.EntreeJeu;
 
 import java.net.Socket;
 
+import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import modele.Jeu;
@@ -62,8 +63,7 @@ public class Controle implements AsyncResponse {
 			
 			arene = new Arene();
 			((JeuServeur)leJeu).constructionMurs();
-			arene.setVisible(true);
-			
+			arene.setVisible(true);			
 			this.frmEntreeJeu.dispose();						
 		}
 		else {
@@ -88,7 +88,25 @@ public class Controle implements AsyncResponse {
 		case Constante.ordreAjoutMur: 			
 			arene.ajoutMurs(info);
 			break;
-					
+		case Constante.ordreAjoutPanelMurs :
+			leJeu.envoi((Connection)info, arene.getJpnMurs());
+			break;
+		default:
+			throw new IllegalArgumentException("Unexpected value: " + ordre);
+		}
+	}
+	
+	/**
+	 * Agencement de l'arene coté client:
+	 * @param ordre
+	 * @param info
+	 */
+	public void evenementJeuClient(String ordre, Object info) {
+		switch (ordre) {
+		case Constante.ordreAjoutPanelMurs: 			
+			arene.setJpnMurs((JPanel)info);
+			break;
+			
 		default:
 			throw new IllegalArgumentException("Unexpected value: " + ordre);
 		}
@@ -96,6 +114,7 @@ public class Controle implements AsyncResponse {
 
 	@Override
 	// recupere une reponse d'un ordi distant 
+	// TODO info null
 	public void reception(Connection connexion, String ordre, Object info) {
 		switch (ordre) {
 		// ordre connexion > serveur ou client
@@ -108,9 +127,6 @@ public class Controle implements AsyncResponse {
 				arene = new Arene();
 				getArene().setVisible(false);
 				this.frmEntreeJeu.dispose();
-				
-				
-				
 			}
 			// Connection avec serveur <> client  :
 			leJeu.connexion(connexion); 

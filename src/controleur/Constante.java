@@ -31,9 +31,13 @@ public class Constante {
 	 */
 	public static final String laDeConnexion = "laDeConnexion";
 	/**
-	 * Chaine de caratere permetant de visualiser l'ordre d'une déconnection :
+	 * Chaine de caratere permetant de visualiser l'ordre d'ajout d'un mur :
 	 */
 	public static final String ordreAjoutMur = "AjoutMur";
+	/**
+	 * Chaine de caratere permetant de visualiser l'ordre d'ajout d'un panel de murs :
+	 */
+	public static final String ordreAjoutPanelMurs = "AjoutPanelMurs";
 	
 	/**
 	 * vie de d�part pour tous les joueurs :
