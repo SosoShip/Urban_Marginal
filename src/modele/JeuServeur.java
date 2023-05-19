@@ -3,10 +3,16 @@ package modele;
 
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Hashtable;
+
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+
 import controleur.Constante;
 import controleur.Controle;
 import outils.connexion.Connection;
+import vue.Arene;
 
 
 /**
@@ -25,6 +31,13 @@ public class JeuServeur extends Jeu {
 	 */
 	private Hashtable<Connection, Joueur> lesJoueurs = new Hashtable<Connection, Joueur>() ;
 	
+	/**
+	 * Communication avec la classe arene
+	 */
+	private Arene arene;
+	public Arene getArene() {
+		return arene;
+	}
 
 	/**
 	 * Constructeur
@@ -35,7 +48,7 @@ public class JeuServeur extends Jeu {
 	
 	@Override
 	public void connexion(Connection connexion) {
-		lesJoueurs.put(connexion, new Joueur());
+		lesJoueurs.put(connexion, new Joueur(this));
 	}
 
 	@Override
@@ -56,7 +69,7 @@ public class JeuServeur extends Jeu {
 	            return;
 			}
 			//Initialisation du joueur :
-			lesJoueurs.get(connexion).initPerso(infoDuPerso[1],  numPerso);
+			lesJoueurs.get(connexion).initPerso(infoDuPerso[1],  numPerso, lesMurs, (Collection)lesJoueurs.values());
 		}
 	}
 	
@@ -77,10 +90,21 @@ public class JeuServeur extends Jeu {
 	public void constructionMurs() {
 		for(Integer i = 1; i <= 20; i++) {
 			Mur unMur = new Mur();
+			unMur.objectLengthX = Constante.tailleDesMurs;
+			unMur.objectHeightY = Constante.tailleDesMurs;
 			lesMurs.add(unMur);
 			controleJeu.evenementJeuServeur(Constante.ordreAjoutMur, (Object)unMur.lblMur);
 		}
 	
+	}
+	
+	/**
+	 * Ajoute le label d'un personnage dans JPanelJeu
+	 * @param labelPerso
+	 */
+	public void ajoutJLabelJeu(JLabel labelPerso) {
+		controleJeu.evenementJeuServeur(Constante.ordreAjoutLblJeu, labelPerso);
+
 	}
 }
 	

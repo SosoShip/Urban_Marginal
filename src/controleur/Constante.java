@@ -38,6 +38,11 @@ public class Constante {
 	 * Chaine de caratere permetant de visualiser l'ordre d'ajout d'un panel de murs :
 	 */
 	public static final String ordreAjoutPanelMurs = "AjoutPanelMurs";
+	/**
+	 * Chaine de caratere permetant de visualiser l'ordre d'ajout d'un label sur le jeu :
+	 */
+	public static final String ordreAjoutLblJeu = "AjoutLblJeuArene";
+	
 	
 	/**
 	 * vie de d�part pour tous les joueurs :
@@ -60,9 +65,35 @@ public class Constante {
 	 */
 	public static int numPerso = 0; 
 	/**
+	 * largeur et hauteur des joueurs :
+	 */
+	public static final int tailleDesJoueurs = 50;
+	/**
+	 * Hauteur du label joueur:
+	 */
+	public static final int hauteurDuMsgJoueur = 8;
+	/**
+	 * Hauteur du label joueur:
+	 */
+	public static final int largeurDuMsgJoueur = 70;
+	/**
+	 * icone du personnage marche :
+	 */
+	public static String marche = "iconeMarche";
+	/**
+	 * icone du personnage touché :
+	 */
+	public static String touche = "iconeTouche";
+	/**
+	 * icone du personnage mort :
+	 */
+	public static String mort = "iconeMort";
+
+	
+	/**
 	 * largeur et hauteur des murs :
 	 */
-	public static final int tailleDesMurs = 50;
+	public static final int tailleDesMurs = 50;	
 	/**
 	 * Hauteur de l'arene :
 	 */

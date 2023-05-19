@@ -11,7 +11,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-
 import modele.Mur;
 
 /**
@@ -37,6 +36,10 @@ public class Arene extends JFrame {
 	 * Zone d'affichage des murs :
 	 */
 	private JPanel jpnMurs;
+	/**
+	 * Zone d'affichage des joueurs :
+	 */
+	private JPanel jpnJeu;
 
 	/**
 	 * Create the frame.
@@ -53,6 +56,13 @@ public class Arene extends JFrame {
 		contentPane = new JPanel();
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+		
+		this.setJpnJeu(new JPanel());
+		setJpnJeu(new JPanel());
+		getJpnJeu().setBounds(0, 0, 800, 600);
+		getJpnJeu().setOpaque(false);
+		getJpnJeu().repaint();
+		contentPane.add(getJpnJeu());
 		
 		this.jpnMurs = new JPanel();
 		setJpnMurs(new JPanel());
@@ -78,7 +88,6 @@ public class Arene extends JFrame {
 		JLabel lblFond = new JLabel("");
 		String chemin = "fonds\\fondarene.jpg";
 		URL resource = getClass().getClassLoader().getResource(chemin);
-
 		lblFond.setIcon(new ImageIcon(resource));		
 		lblFond.setBounds(0, 0, 800, 600);
 		contentPane.add(lblFond);		
@@ -86,6 +95,11 @@ public class Arene extends JFrame {
 	
 	public void ajoutMurs(Object unMur) {
 		getJpnMurs().add((JLabel)unMur);
+	}
+	
+	public void ajoutLblPersoArene(Object lblPerso) {
+		getJpnMurs().add((JLabel)lblPerso);
+		getJpnJeu().repaint();
 	}
 
 	public JPanel getJpnMurs() {
@@ -95,6 +109,14 @@ public class Arene extends JFrame {
 	public void setJpnMurs(JPanel jpnMurs) {
 		this.jpnMurs.add(jpnMurs);
 		this.jpnMurs.repaint();
+	}
+
+	public JPanel getJpnJeu() {
+		return jpnJeu;
+	}
+
+	public void setJpnJeu(JPanel jpnJeu) {
+		this.jpnJeu = jpnJeu;
 	}
 	
 

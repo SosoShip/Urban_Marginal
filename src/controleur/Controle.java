@@ -4,6 +4,7 @@ import vue.EntreeJeu;
 
 import java.net.Socket;
 
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -91,6 +92,9 @@ public class Controle implements AsyncResponse {
 		case Constante.ordreAjoutPanelMurs :
 			leJeu.envoi((Connection)info, arene.getJpnMurs());
 			break;
+		case Constante.ordreAjoutLblJeu:
+			arene.ajoutLblPersoArene(info);
+			break;
 		default:
 			throw new IllegalArgumentException("Unexpected value: " + ordre);
 		}
@@ -105,8 +109,7 @@ public class Controle implements AsyncResponse {
 		switch (ordre) {
 		case Constante.ordreAjoutPanelMurs: 			
 			arene.setJpnMurs((JPanel)info);
-			break;
-			
+			break;	
 		default:
 			throw new IllegalArgumentException("Unexpected value: " + ordre);
 		}
@@ -114,7 +117,6 @@ public class Controle implements AsyncResponse {
 
 	@Override
 	// recupere une reponse d'un ordi distant 
-	// TODO info null
 	public void reception(Connection connexion, String ordre, Object info) {
 		switch (ordre) {
 		// ordre connexion > serveur ou client

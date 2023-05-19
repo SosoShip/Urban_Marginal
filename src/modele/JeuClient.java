@@ -29,7 +29,6 @@ public class JeuClient extends Jeu {
 	public void reception(Connection connexion, Object info) {
 		// Test pour connaitre la nature de info :
 		// Si c'est un JPanel :
-		// TODO info est null > ne rentre pas
 		if (info instanceof JPanel) {
 			controleJeu.evenementJeuClient(Constante.ordreAjoutPanelMurs, info);
 		}
