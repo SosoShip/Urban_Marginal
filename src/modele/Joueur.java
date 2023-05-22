@@ -96,9 +96,7 @@ public class Joueur extends Objet {
 
 			int minY = 0 + Constante.tailleDesJoueurs;
 			int maxY = Constante.hauteurArene - Constante.tailleDesJoueurs;
-			this.posY = Common.randXY(minY, maxY);
-			//this.posX = Common.randXY(0, Constante.longeurArene);
-			//this.posY = Common.randXY(0, Constante.hauteurArene);	
+			this.posY = Common.randXY(minY, maxY);	
 			
 			isExit = this.toucheMur(lesMurs);
 			isExit = this.toucheJoueur(lesJoueurs);
@@ -119,6 +117,8 @@ public class Joueur extends Objet {
 		lblJoueur.setIcon(new ImageIcon(resource));
 		// Message du joueur
 		lblMessage.setText(Constante.pseudo+" : "+ vie );
+		// ordre d'envoi du pannel joueur a tous les joueurs :
+		this.jeuServeur.EnvoiJeuATous();
 	}
 
 	/**

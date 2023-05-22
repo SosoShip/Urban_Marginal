@@ -74,6 +74,11 @@ public class Controle implements AsyncResponse {
 		
 	}
 	
+	/**
+	 * Envoi les informations du personnage au jeuClient:
+	 * @param txtPseudo
+	 * @param numPersonnage
+	 */
 	public void evenementChoixJoueur(String txtPseudo, int numPersonnage) {		
 		System.out.println(txtPseudo);
 		((JeuClient)leJeu).envoi(Constante.infoDuPerso+Constante.separation+txtPseudo+Constante.separation+numPersonnage);	
@@ -94,6 +99,10 @@ public class Controle implements AsyncResponse {
 			break;
 		case Constante.ordreAjoutLblJeu:
 			arene.ajoutLblPersoArene(info);
+			// TODO : faire un autre case? est vraiment utile
+			break;
+		case Constante.ordreAjoutTousLesLblJeu:
+			leJeu.envoi((Connection)info, arene.getJpnJeu());
 			break;
 		default:
 			throw new IllegalArgumentException("Unexpected value: " + ordre);
@@ -110,6 +119,9 @@ public class Controle implements AsyncResponse {
 		case Constante.ordreAjoutPanelMurs: 			
 			arene.setJpnMurs((JPanel)info);
 			break;	
+		case Constante.ordreAjoutTousLesLblJeu:
+			arene.setJpnJeu((JPanel)info);
+			break;
 		default:
 			throw new IllegalArgumentException("Unexpected value: " + ordre);
 		}
@@ -141,8 +153,13 @@ public class Controle implements AsyncResponse {
 		
 	}
 
-	public void envoi (Connection connexion, Object pseudo) {
-		connexion.envoi(pseudo);
+	/**
+	 * Envoi une connection et un objet à la clesse connection :
+	 * @param connexion
+	 * @param info
+	 */
+	public void envoi (Connection connexion, Object info) {
+		connexion.envoi(info);
 	}	
 
 }

@@ -39,9 +39,13 @@ public class Constante {
 	 */
 	public static final String ordreAjoutPanelMurs = "AjoutPanelMurs";
 	/**
-	 * Chaine de caratere permetant de visualiser l'ordre d'ajout d'un label sur le jeu :
+	 * Chaine de caratere permetant de visualiser l'ordre d'ajout d'un label joueur sur le jeu :
 	 */
 	public static final String ordreAjoutLblJeu = "AjoutLblJeuArene";
+	/**
+	 * Chaine de caratere permetant de visualiser l'ordre d'ajout de tout les label joueur sur le jeu :
+	 */
+	public static final String ordreAjoutTousLesLblJeu = "AjoutTousLesLblJeuArene";
 	
 	
 	/**

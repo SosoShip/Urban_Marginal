@@ -57,12 +57,14 @@ public class Arene extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
+		this.jpnJeu = new JPanel();
 		this.setJpnJeu(new JPanel());
 		setJpnJeu(new JPanel());
 		getJpnJeu().setBounds(0, 0, 800, 600);
 		getJpnJeu().setOpaque(false);
 		getJpnJeu().repaint();
 		contentPane.add(getJpnJeu());
+		getJpnJeu().setLayout(null);
 		
 		this.jpnMurs = new JPanel();
 		setJpnMurs(new JPanel());
@@ -98,7 +100,7 @@ public class Arene extends JFrame {
 	}
 	
 	public void ajoutLblPersoArene(Object lblPerso) {
-		getJpnMurs().add((JLabel)lblPerso);
+		getJpnJeu().add((JLabel)lblPerso);
 		getJpnJeu().repaint();
 	}
 
@@ -116,7 +118,13 @@ public class Arene extends JFrame {
 	}
 
 	public void setJpnJeu(JPanel jpnJeu) {
-		this.jpnJeu = jpnJeu;
+		
+		//if (this.jpnJeu != null) {
+			this.jpnJeu.removeAll();
+		//}
+		
+		this.jpnJeu.add(jpnJeu);
+		this.jpnJeu.repaint();
 	}
 	
 

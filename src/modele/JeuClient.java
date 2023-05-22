@@ -11,7 +11,7 @@ import javax.swing.JPanel;
  */
 public class JeuClient extends Jeu {
 	private Connection connexion;
-
+	boolean mursOk = false;
 	
 	/**
 	 * Constructeur :
@@ -29,8 +29,15 @@ public class JeuClient extends Jeu {
 	public void reception(Connection connexion, Object info) {
 		// Test pour connaitre la nature de info :
 		// Si c'est un JPanel :
+
 		if (info instanceof JPanel) {
-			controleJeu.evenementJeuClient(Constante.ordreAjoutPanelMurs, info);
+			if(!mursOk) {
+				controleJeu.evenementJeuClient(Constante.ordreAjoutPanelMurs, info);
+				mursOk = true;
+			}
+			else {
+				controleJeu.evenementJeuClient(Constante.ordreAjoutTousLesLblJeu, info);
+			}
 		}
 	}
 	

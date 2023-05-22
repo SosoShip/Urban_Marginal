@@ -70,6 +70,7 @@ public class JeuServeur extends Jeu {
 			}
 			//Initialisation du joueur :
 			lesJoueurs.get(connexion).initPerso(infoDuPerso[1],  numPerso, lesMurs, (Collection)lesJoueurs.values());
+			break;
 		}
 	}
 	
@@ -80,7 +81,6 @@ public class JeuServeur extends Jeu {
 	/**
 	 * Envoi d'une information vers tous les clients
 	 * fais appel plusieurs fois � l'envoi de la classe Jeu
-	 */
 	public void envoi() {
 	}
 
@@ -105,6 +105,15 @@ public class JeuServeur extends Jeu {
 	public void ajoutJLabelJeu(JLabel labelPerso) {
 		controleJeu.evenementJeuServeur(Constante.ordreAjoutLblJeu, labelPerso);
 
+	}
+	
+	/**
+	 *  Envoi de l'ordre pour effectuer un changement de panel à tous les joueurs :
+	 */
+	public void EnvoiJeuATous() {
+		for (Connection connect : lesJoueurs.keySet()) {
+			controleJeu.evenementJeuServeur(Constante.ordreAjoutTousLesLblJeu, (Object)connect);
+		}
 	}
 }
 	
