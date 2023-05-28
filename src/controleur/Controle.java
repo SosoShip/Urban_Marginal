@@ -11,6 +11,7 @@ import javax.swing.JTextField;
 import modele.Jeu;
 import modele.JeuClient;
 import modele.JeuServeur;
+import modele.Joueur;
 import outils.connexion.AsyncResponse;
 import outils.connexion.ClientSocket;
 import outils.connexion.Connection;
@@ -62,7 +63,7 @@ public class Controle implements AsyncResponse {
 			leJeu = new JeuServeur(this);
 			ServeurSocket serveurSocket = new ServeurSocket(this, port);
 			
-			arene = new Arene();
+			arene = new Arene(this);
 			((JeuServeur)leJeu).constructionMurs();
 			arene.setVisible(true);			
 			this.frmEntreeJeu.dispose();						
@@ -99,10 +100,14 @@ public class Controle implements AsyncResponse {
 			break;
 		case Constante.ordreAjoutLblJeu:
 			arene.ajoutLblPersoArene(info);
-			// TODO : faire un autre case? est vraiment utile
 			break;
 		case Constante.ordreAjoutTousLesLblJeu:
 			leJeu.envoi((Connection)info, arene.getJpnJeu());
+			break;
+		case Constante.ordreAjoutChat:
+			String leChat = arene.ajoutChat((String)info);
+			// Envois du chat mis à jour à la liste de joueurs :	
+			((JeuServeur)leJeu).envoi(null, leChat);
 			break;
 		default:
 			throw new IllegalArgumentException("Unexpected value: " + ordre);
@@ -122,10 +127,23 @@ public class Controle implements AsyncResponse {
 		case Constante.ordreAjoutTousLesLblJeu:
 			arene.setJpnJeu((JPanel)info);
 			break;
+		case Constante.modifChat:
+			arene.setTxtChat((String)info);
+			break;
 		default:
 			throw new IllegalArgumentException("Unexpected value: " + ordre);
 		}
 	}
+	
+	/**
+	 * envoi le text saisi a jeu client
+	 * @param textSaisi
+	 */
+	public void evenementArene(String textSaisi) {
+		//if (leJeu instanceof JeuClient) {
+			((JeuClient) leJeu).envoi(Constante.ordreLeChat + Constante.separation + textSaisi);
+		}
+	//}
 
 	@Override
 	// recupere une reponse d'un ordi distant 
@@ -138,7 +156,7 @@ public class Controle implements AsyncResponse {
 				choixJoueur = new ChoixJoueur(this);
 				choixJoueur.setVisible(true);
 				//TOTO vraiment creer une nouvelle arene???
-				arene = new Arene();
+				arene = new Arene(this);
 				getArene().setVisible(false);
 				this.frmEntreeJeu.dispose();
 			}

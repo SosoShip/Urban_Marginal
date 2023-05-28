@@ -29,7 +29,6 @@ public class JeuClient extends Jeu {
 	public void reception(Connection connexion, Object info) {
 		// Test pour connaitre la nature de info :
 		// Si c'est un JPanel :
-
 		if (info instanceof JPanel) {
 			if(!mursOk) {
 				controleJeu.evenementJeuClient(Constante.ordreAjoutPanelMurs, info);
@@ -38,6 +37,11 @@ public class JeuClient extends Jeu {
 			else {
 				controleJeu.evenementJeuClient(Constante.ordreAjoutTousLesLblJeu, info);
 			}
+		}
+		// Si c'est un Object :
+		//TODO type string dans l'énoncé mais logiquement c'est un objet?????
+		if (info instanceof String) {
+			controleJeu.evenementJeuClient(Constante.modifChat, info);
 		}
 	}
 	
@@ -49,8 +53,8 @@ public class JeuClient extends Jeu {
 	 * Envoi d'une information vers le serveur
 	 * fais appel une fois � l'envoi dans la classe Jeu
 	 */
-	public void envoi(String pseudo) {
-		envoi( connexion, pseudo);
+	public void envoi(String info) {
+		super.envoi(connexion, (Object)info);
 	}
 	
 	

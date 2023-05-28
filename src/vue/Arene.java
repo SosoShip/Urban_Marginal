@@ -1,6 +1,8 @@
 package vue;
 
+import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.event.KeyEvent;
 import java.net.MalformedURLException;
 import java.net.URL;
 
@@ -11,7 +13,10 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+
+import controleur.Controle;
 import modele.Mur;
+import java.awt.event.KeyAdapter;
 
 /**
  * frame de l'ar�ne du jeu
@@ -40,11 +45,17 @@ public class Arene extends JFrame {
 	 * Zone d'affichage des joueurs :
 	 */
 	private JPanel jpnJeu;
+	/**
+	 * Communication avec la classe Controle
+	 */
+	private Controle controleJeu;
 
 	/**
 	 * Create the frame.
 	 */
-	public Arene() {
+	public Arene(Controle controle) {
+		this.controleJeu = controle;
+		
 		// Dimension de la frame en fonction de son contenu
 		this.getContentPane().setPreferredSize(new Dimension(800, 600 + 25 + 140));
 	    this.pack();
@@ -53,9 +64,9 @@ public class Arene extends JFrame {
 		this.setResizable(false);
 		setTitle("Arena");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		contentPane = new JPanel();
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
+		this.contentPane = new JPanel();
+		setContentPane(this.contentPane);
+		this.contentPane.setLayout(null);
 		
 		this.jpnJeu = new JPanel();
 		this.setJpnJeu(new JPanel());
@@ -74,38 +85,67 @@ public class Arene extends JFrame {
 		contentPane.add(getJpnMurs());
 		getJpnMurs().setLayout(null);
 	
-		txtSaisie = new JTextField();
-		txtSaisie.setBounds(0, 600, 800, 25);
-		contentPane.add(txtSaisie);
-		txtSaisie.setColumns(10);
+		this.txtSaisie = new JTextField();
+		this.txtSaisie.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+					if(!txtSaisie.getText().isEmpty() || !txtSaisie.getText().isBlank()) {
+						controleJeu.evenementArene(txtSaisie.getText());
+						txtSaisie.setText("");
+					}
+				}
+			}
+		});
+		this.txtSaisie.setBounds(0, 600, 800, 25);
+		this.contentPane.add(txtSaisie);
+		this.txtSaisie.setColumns(10);
 		
 		JScrollPane jspChat = new JScrollPane();
 		jspChat.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		jspChat.setBounds(0, 625, 800, 140);
-		contentPane.add(jspChat);
+		this.contentPane.add(jspChat);
 		
-		txtChat = new JTextArea();
-		jspChat.setViewportView(txtChat);
+		this.txtChat = new JTextArea();
+		
+		//setTxtChat(new JTextArea());
+		jspChat.setViewportView(this.txtChat);
 		
 		JLabel lblFond = new JLabel("");
 		String chemin = "fonds\\fondarene.jpg";
 		URL resource = getClass().getClassLoader().getResource(chemin);
 		lblFond.setIcon(new ImageIcon(resource));		
 		lblFond.setBounds(0, 0, 800, 600);
-		contentPane.add(lblFond);		
+		this.contentPane.add(lblFond);		
 	}
 	
+	/**
+	 * Ajoute le label d'un mur dans l'arene :
+	 * @param unMur
+	 */
 	public void ajoutMurs(Object unMur) {
 		getJpnMurs().add((JLabel)unMur);
 	}
-	
+	/**
+	 * Ajoute le label d'un personnage dans l'arene :
+	 * @param lblPerso
+	 */
 	public void ajoutLblPersoArene(Object lblPerso) {
 		getJpnJeu().add((JLabel)lblPerso);
 		getJpnJeu().repaint();
 	}
+	/**
+	 * Ajoute le texte dsais par un joueur au tchat :
+	 * @param textSaisi
+	 * @return
+	 */
+	public String ajoutChat(String textSaisi) {
+		this.setTxtChat( getTxtChat() + "\r\n" + textSaisi + "\r\n");
+		return getTxtChat();
+	}	
 
 	public JPanel getJpnMurs() {
-		return jpnMurs;
+		return this.jpnMurs;
 	}
 
 	public void setJpnMurs(JPanel jpnMurs) {
@@ -114,7 +154,7 @@ public class Arene extends JFrame {
 	}
 
 	public JPanel getJpnJeu() {
-		return jpnJeu;
+		return this.jpnJeu;
 	}
 
 	public void setJpnJeu(JPanel jpnJeu) {
@@ -125,6 +165,15 @@ public class Arene extends JFrame {
 		
 		this.jpnJeu.add(jpnJeu);
 		this.jpnJeu.repaint();
+	}
+
+	public String getTxtChat() {
+		//return txtChat;
+		return this.txtChat.getText();
+	}
+
+	public void setTxtChat(String txtChat) {
+		this.txtChat.setText(txtChat);
 	}
 	
 

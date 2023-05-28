@@ -46,6 +46,18 @@ public class Constante {
 	 * Chaine de caratere permetant de visualiser l'ordre d'ajout de tout les label joueur sur le jeu :
 	 */
 	public static final String ordreAjoutTousLesLblJeu = "AjoutTousLesLblJeuArene";
+	/**
+	 * ordre de transmettre la phrase saisie par un joueur dans la zone de saisie:
+	 */
+	public static final String ordreLeChat = "leChat";
+	/**
+	 * ordre d'ajouter la phrase saisie par un joueur dans le chat :
+	 */
+	public static final String ordreAjoutChat = "ajoutLeChat";
+	/**
+	 * ordre d'ajouter la phrase saisie par un joueur dans le chat :
+	 */
+	public static final String modifChat = "modifLeChat";
 	
 	
 	/**
@@ -60,14 +72,6 @@ public class Constante {
 	 * perte de points de vie lors d'une attaque :
 	 */
 	public static final int PERTE = 2 ; 	
-	/**
-	 * pseudo saisi :
-	 */
-	public static String pseudo = "pseudo";
-	/**
-	 * n� correspondant au personnage (avatar) pour le fichier correspondant
-	 */
-	public static int numPerso = 0; 
 	/**
 	 * largeur et hauteur des joueurs :
 	 */
@@ -106,6 +110,8 @@ public class Constante {
 	 * Longueur de l'arene :
 	 */
 	public static final int longeurArene = 800- tailleDesMurs;
+	
+	
 
 	
 	//Mémorisation des chemins vers le fichier media

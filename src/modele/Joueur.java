@@ -31,6 +31,15 @@ public class Joueur extends Objet {
 	 */
 	private Boule boule ;
 	/**
+	 * Nom du joueur :
+	 */
+	private String pseudo ;
+	/**
+	 * numero correspondant au personnage (avatar) pour le fichier correspondant
+	 */
+	// pourquoi ChoixJoueur demande qu'il soit en static??
+	public int numPerso = 0; 
+	/**
 	 * vie restante du joueur
 	 */
 	private int vie ; 
@@ -57,8 +66,8 @@ public class Joueur extends Objet {
 	 */
 	public void initPerso(Object pseudoDuJoueur, int numDuPerso, ArrayList<Mur> lesMurs, Collection<Joueur> lesJoueurs) {
 		//Caractéristiques du joueur :
-		Constante.pseudo = pseudoDuJoueur.toString();
-		Constante.numPerso = numDuPerso;
+		pseudo = pseudoDuJoueur.toString();
+		numPerso = numDuPerso;
 		this.objectLengthX = Constante.tailleDesJoueurs;
 		this.objectHeightY = Constante.tailleDesJoueurs + Constante.hauteurDuMsgJoueur;	
 		
@@ -69,7 +78,7 @@ public class Joueur extends Objet {
 		lblMessage = new JLabel("");
 		lblMessage.setBounds(Constante.tailleDesJoueurs - 40, Constante.tailleDesJoueurs, Constante.largeurDuMsgJoueur, Constante.hauteurDuMsgJoueur);
 		
-		//Placement de ddepart du joueur :
+		//Placement de depart du joueur :
 		premierePosition(lesMurs, lesJoueurs);
 		
 		lblJoueur.setBounds(this.posX, this.posY, Constante.tailleDesJoueurs, Constante.tailleDesJoueurs + Constante.hauteurDuMsgJoueur);
@@ -112,11 +121,11 @@ public class Joueur extends Objet {
 	 */
 	public void affiche(int etape, int orientation) {
 		// image du joueur
-		String chemin = "personnages\\perso"+Constante.numPerso+"marche"+etape+"d"+orientation+".gif";
+		String chemin = "personnages\\perso"+numPerso+"marche"+etape+"d"+orientation+".gif";
 		URL resource = getClass().getClassLoader().getResource(chemin);
 		lblJoueur.setIcon(new ImageIcon(resource));
 		// Message du joueur
-		lblMessage.setText(Constante.pseudo+" : "+ vie );
+		lblMessage.setText(pseudo +" : "+ vie );
 		// ordre d'envoi du pannel joueur a tous les joueurs :
 		this.jeuServeur.EnvoiJeuATous();
 	}
@@ -160,7 +169,6 @@ public class Joueur extends Objet {
 	* Contr�le si le joueur touche un des murs
 	 * @return true si un joueur touche un mur
 	 */
-	//TODO verifier qu'il rentre bien if(istouch)
 	private Boolean toucheMur(ArrayList<Mur> lesMurs) {
 		for (Mur unMur : lesMurs) {			
 			boolean istouch = this.toucheObjet(unMur);
@@ -195,6 +203,15 @@ public class Joueur extends Objet {
 	 * Le joueur se d�connecte et disparait
 	 */
 	public void departJoueur() {
+	}
+
+	/**
+	 * Retourne le pseudo du joueur :
+	 * @return
+	 */
+	public String getPseudo() {
+		// TODO Auto-generated method stub
+		return pseudo;
 	}
 	
 }

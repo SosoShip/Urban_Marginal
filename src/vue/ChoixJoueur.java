@@ -13,6 +13,7 @@ import javax.swing.JTextField;
 
 import controleur.Constante;
 import controleur.Controle;
+import modele.Joueur;
 
 import java.awt.Cursor;
 import java.awt.Dimension;
@@ -44,6 +45,8 @@ public class ChoixJoueur extends JFrame {
 	 */
 	private JTextField txtPseudo;
 	
+	private int selectedNumPerso = 0 ;
+	
 	/**
 	 * nombre de personnages maximum
 	 */
@@ -71,7 +74,7 @@ public class ChoixJoueur extends JFrame {
 	private void lblGo_clic() {		
 		//Verification de l'existence d'un pseudo :
 		if (!txtPseudo.getText().isEmpty()) {
-			controle.evenementChoixJoueur(txtPseudo.getText(), Constante.numPerso);
+			controle.evenementChoixJoueur(txtPseudo.getText(), selectedNumPerso);
 			controle.getArene().setVisible(true);	
 			this.dispose();
 		}
@@ -92,13 +95,13 @@ public class ChoixJoueur extends JFrame {
 	 * Personnage suivant :
 	 */
 	private void personnageSuivant() {		
-		if (Constante.numPerso < persoMax) {
-			Constante.numPerso ++;		
+		if (selectedNumPerso < persoMax) {
+			selectedNumPerso ++;		
 		}
 		else {
-			Constante.numPerso = 1;			
+			selectedNumPerso= 1;			
 		}
-		affichePerso(Constante.numPerso);
+		affichePerso(selectedNumPerso);
 	}
 	
 	/**
@@ -106,13 +109,13 @@ public class ChoixJoueur extends JFrame {
 	 */
 	private void personnagePrecedant() {
 		
-		if (Constante.numPerso > 1) {
-			Constante.numPerso --;		
+		if (selectedNumPerso > 1) {
+			selectedNumPerso --;		
 		}
 		else {
-			Constante.numPerso = persoMax;			
+			selectedNumPerso = persoMax;			
 		}
-		affichePerso(Constante.numPerso);
+		affichePerso(selectedNumPerso);
 	}
 	
 	/**
@@ -227,8 +230,8 @@ public class ChoixJoueur extends JFrame {
 		txtPseudo.requestFocus();
 		
 		// Affichage du premier personnage :
-		Constante.numPerso = 1;
-		affichePerso(Constante.numPerso);
+		selectedNumPerso = 1;
+		affichePerso(selectedNumPerso);
 
 	}
 }

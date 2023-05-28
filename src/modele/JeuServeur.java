@@ -4,6 +4,7 @@ package modele;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Hashtable;
 
 import javax.swing.JLabel;
@@ -71,6 +72,14 @@ public class JeuServeur extends Jeu {
 			//Initialisation du joueur :
 			lesJoueurs.get(connexion).initPerso(infoDuPerso[1],  numPerso, lesMurs, (Collection)lesJoueurs.values());
 			break;
+			// Concatène le pseudo et sa phrase :
+		case Constante.ordreLeChat:
+			//verifier si la phrase est bien infoDuPerso[1]
+			String chatSaisi = lesJoueurs.get(connexion).getPseudo() + " > " + infoDuPerso[1];			
+			controleJeu.evenementJeuServeur(Constante.ordreAjoutChat, (Object)chatSaisi);
+			break;
+		default:
+			throw new IllegalArgumentException("Unexpected value: ");
 		}
 	}
 	
@@ -115,6 +124,27 @@ public class JeuServeur extends Jeu {
 			controleJeu.evenementJeuServeur(Constante.ordreAjoutTousLesLblJeu, (Object)connect);
 		}
 	}
+	
+	/**
+	 * Envoi du chat mis à jour à chaque joueur :
+	 */
+	@Override
+	public void envoi( Connection connexion, Object info) {
+		//ArrayList<Connection> connectJoueur = new ArrayList<>();
+		ArrayList<Connection> connectJoueur = Collections.list(lesJoueurs.keys());
+		
+		for(Connection laConnectDUnJoueur : connectJoueur ){
+			super.envoi(laConnectDUnJoueur, info);
+		}
+	}
+	
+	/**
+	 * debut du cour > dit de la placer coté serveur, fin du cour dans arene 
+	public String ajoutChat(String textSaisi) {
+		String leTextDuChat = arene.getTxtChat() + "\r\n" + textSaisi + "\r\n";
+		return leTextDuChat;
+	}
+	**/
 }
 	
 	

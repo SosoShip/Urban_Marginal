@@ -32,8 +32,8 @@ public abstract class Jeu {
 	/**
 	 * Envoi d'une information vers un ordinateur distant
 	 */
-	public void envoi( Connection connexion, Object pseudo) {
-		controleJeu.envoi(connexion, pseudo);
+	public void envoi( Connection connexion, Object info) {
+		controleJeu.envoi(connexion, info);
 	}
 	
 	
