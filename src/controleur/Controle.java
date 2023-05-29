@@ -140,10 +140,8 @@ public class Controle implements AsyncResponse {
 	 * @param textSaisi
 	 */
 	public void evenementArene(String textSaisi) {
-		//if (leJeu instanceof JeuClient) {
-			((JeuClient) leJeu).envoi(Constante.ordreLeChat + Constante.separation + textSaisi);
+		((JeuClient) leJeu).envoi(Constante.ordreLeChat + Constante.separation + textSaisi);
 		}
-	//}
 
 	@Override
 	// recupere une reponse d'un ordi distant 
@@ -178,6 +176,14 @@ public class Controle implements AsyncResponse {
 	 */
 	public void envoi (Connection connexion, Object info) {
 		connexion.envoi(info);
-	}	
+	}
+	
+	/**
+	 * retourne l'instance de jeuClient :
+	 * @return
+	 */
+	public boolean isClient() {
+		return leJeu instanceof JeuClient;
+	}
 
 }

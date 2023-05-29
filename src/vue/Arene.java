@@ -15,6 +15,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import controleur.Controle;
+import modele.JeuClient;
 import modele.Mur;
 import java.awt.event.KeyAdapter;
 
@@ -59,8 +60,7 @@ public class Arene extends JFrame {
 		// Dimension de la frame en fonction de son contenu
 		this.getContentPane().setPreferredSize(new Dimension(800, 600 + 25 + 140));
 	    this.pack();
-	    // interdiction de changer la taille
-	    
+	    // interdiction de changer la taille	    
 		this.setResizable(false);
 		setTitle("Arena");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -85,22 +85,26 @@ public class Arene extends JFrame {
 		contentPane.add(getJpnMurs());
 		getJpnMurs().setLayout(null);
 	
-		this.txtSaisie = new JTextField();
-		this.txtSaisie.addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyPressed(KeyEvent e) {
-				if(e.getKeyCode() == KeyEvent.VK_ENTER) {
-					if(!txtSaisie.getText().isEmpty() || !txtSaisie.getText().isBlank()) {
-						controleJeu.evenementArene(txtSaisie.getText());
-						txtSaisie.setText("");
+		// 	Création de la zon de saisie coté jeuClient :	
+		if (controleJeu.isClient()) {			
+		
+			this.txtSaisie = new JTextField();
+			this.txtSaisie.addKeyListener(new KeyAdapter() {
+				@Override
+				public void keyPressed(KeyEvent e) {
+					if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+						if(!txtSaisie.getText().isEmpty() || !txtSaisie.getText().isBlank()) {
+							controleJeu.evenementArene(txtSaisie.getText());
+							txtSaisie.setText("");
+						}
 					}
 				}
-			}
-		});
-		this.txtSaisie.setBounds(0, 600, 800, 25);
-		this.contentPane.add(txtSaisie);
-		this.txtSaisie.setColumns(10);
-		
+			});
+			this.txtSaisie.setBounds(0, 600, 800, 25);
+			this.contentPane.add(txtSaisie);
+			this.txtSaisie.setColumns(10);						
+		}
+		// Création zone du chat :
 		JScrollPane jspChat = new JScrollPane();
 		jspChat.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		jspChat.setBounds(0, 625, 800, 140);
@@ -108,7 +112,6 @@ public class Arene extends JFrame {
 		
 		this.txtChat = new JTextArea();
 		
-		//setTxtChat(new JTextArea());
 		jspChat.setViewportView(this.txtChat);
 		
 		JLabel lblFond = new JLabel("");
@@ -144,34 +147,54 @@ public class Arene extends JFrame {
 		return getTxtChat();
 	}	
 
+	/**
+	 * getter panel Mur :
+	 * @return
+	 */
 	public JPanel getJpnMurs() {
 		return this.jpnMurs;
 	}
 
+	/**
+	 * Setter panel mur :
+	 * @param jpnMurs
+	 */
 	public void setJpnMurs(JPanel jpnMurs) {
 		this.jpnMurs.add(jpnMurs);
 		this.jpnMurs.repaint();
 	}
 
+	/**
+	 * getter panel jeu :
+	 * @return
+	 */
 	public JPanel getJpnJeu() {
 		return this.jpnJeu;
 	}
 
+	/**
+	 * Setter panel jeu :
+	 * @param jpnJeu
+	 */
 	public void setJpnJeu(JPanel jpnJeu) {
-		
-		//if (this.jpnJeu != null) {
-			this.jpnJeu.removeAll();
-		//}
-		
+		this.jpnJeu.removeAll();		
 		this.jpnJeu.add(jpnJeu);
 		this.jpnJeu.repaint();
 	}
 
+	/**
+	 * Getter texte du chat :
+	 * @return
+	 */
 	public String getTxtChat() {
 		//return txtChat;
 		return this.txtChat.getText();
 	}
 
+	/**
+	 * Setter texte du chat :
+	 * @param txtChat
+	 */
 	public void setTxtChat(String txtChat) {
 		this.txtChat.setText(txtChat);
 	}

@@ -39,7 +39,6 @@ public class JeuClient extends Jeu {
 			}
 		}
 		// Si c'est un Object :
-		//TODO type string dans l'énoncé mais logiquement c'est un objet?????
 		if (info instanceof String) {
 			controleJeu.evenementJeuClient(Constante.modifChat, info);
 		}

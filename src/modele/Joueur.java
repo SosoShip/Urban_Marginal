@@ -96,8 +96,9 @@ public class Joueur extends Objet {
 	 * Calcul de la premi�re position al�atoire du joueur (sans chevaucher un autre joueur ou un mur)
 	 */
 	private void premierePosition(ArrayList<Mur> lesMurs, Collection<Joueur> lesJoueurs) {
-		Boolean isExit = true;
-		while(isExit) {
+		Boolean isTouchMur = true;
+		Boolean isTouchJoueur = true;
+		while(isTouchMur || isTouchJoueur) {
 			// Nombres aléatoires pour placer les murs sur X et y :
 			int minX = 0 + Constante.tailleDesJoueurs;
 			int maxX = Constante.longeurArene - Constante.tailleDesJoueurs;
@@ -107,10 +108,10 @@ public class Joueur extends Objet {
 			int maxY = Constante.hauteurArene - Constante.tailleDesJoueurs;
 			this.posY = Common.randXY(minY, maxY);	
 			
-			isExit = this.toucheMur(lesMurs);
-			isExit = this.toucheJoueur(lesJoueurs);
+			isTouchMur = this.toucheMur(lesMurs);
+			isTouchJoueur = this.toucheJoueur(lesJoueurs);
 			
-			if(!isExit) {
+			if(!(isTouchMur && isTouchJoueur)) {
 				break;
 			}
 		}
