@@ -42,7 +42,6 @@ public abstract class Objet<get> {
 	 * @param objet contient l'objet � contr�ler
 	 * @return true si les 2 objets se touchent
 	 */
-	//TODO verifier qu'il rentre bien les if
 	public Boolean toucheObjet (Objet objet) {
 		if((this == null)||(objet == null)) {
 			return null;

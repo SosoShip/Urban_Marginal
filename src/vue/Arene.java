@@ -110,9 +110,9 @@ public class Arene extends JFrame {
 		jspChat.setBounds(0, 625, 800, 140);
 		this.contentPane.add(jspChat);
 		
-		this.txtChat = new JTextArea();
-		
+		this.txtChat = new JTextArea();		
 		jspChat.setViewportView(this.txtChat);
+		this.txtChat.setEditable(false);
 		
 		JLabel lblFond = new JLabel("");
 		String chemin = "fonds\\fondarene.jpg";
@@ -197,6 +197,7 @@ public class Arene extends JFrame {
 	 */
 	public void setTxtChat(String txtChat) {
 		this.txtChat.setText(txtChat);
+		this.txtChat.setCaretPosition(this.txtChat.getDocument().getLength()); 
 	}
 	
 
