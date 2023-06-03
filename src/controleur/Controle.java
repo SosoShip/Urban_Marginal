@@ -27,12 +27,31 @@ import vue.ChoixJoueur;
  */
 public class Controle implements AsyncResponse {
 
+	/**
+	 * Lien avec JFrame d'entrée dans le jeu:
+	 */
 	private EntreeJeu frmEntreeJeu ;
+	/**
+	 * Lien avec JFrame du choix du joueur:
+	 */
 	private ChoixJoueur choixJoueur;
+	/**
+	 * Lien avec JFrame de l'arène:
+	 */
 	private Arene arene;
+	/**
+	 * Lien avec les jeux (client ou serveur):
+	 */
 	private Jeu leJeu;
-	private int port = 6666;
+	/**
+	 * N° du port de connexion du ServeurSocket:
+	 */
+	private int port = Constante.port;
 	
+	/**
+	 * Retourne le frame de l'arene en cour:
+	 * @return
+	 */
 	public Arene getArene() {
 		return arene;
 	}
@@ -57,8 +76,7 @@ public class Controle implements AsyncResponse {
 	 * Choix création serveur ou rejoindre  
 	 * @param info
 	 */
-	
-	public void evenementEntréeJeu(String info) {			
+	public void evenementEntreeJeu(String info) {			
 		if( info.equals(Constante.jeuServeur)) {				
 			leJeu = new JeuServeur(this);
 			ServeurSocket serveurSocket = new ServeurSocket(this, port);
@@ -82,7 +100,7 @@ public class Controle implements AsyncResponse {
 	 */
 	public void evenementChoixJoueur(String txtPseudo, int numPersonnage) {		
 		System.out.println(txtPseudo);
-		((JeuClient)leJeu).envoi(Constante.infoDuPerso+Constante.separation+txtPseudo+Constante.separation+numPersonnage);	
+		((JeuClient)leJeu).envoi(Constante.infoDuPerso + Constante.separation + txtPseudo + Constante.separation + numPersonnage);	
 	}
 	
 	/**
@@ -139,9 +157,19 @@ public class Controle implements AsyncResponse {
 	 * envoi le text saisi a jeu client
 	 * @param textSaisi
 	 */
-	public void evenementArene(String textSaisi) {
-		((JeuClient) leJeu).envoi(Constante.ordreLeChat + Constante.separation + textSaisi);
+	public void evenementArene(Object textSaisi) {
+		// Gestion du chat :
+		if (textSaisi instanceof String) {
+			((JeuClient) leJeu).envoi(Constante.ordreLeChat + Constante.separation + textSaisi);
 		}
+		
+		// Gestion du déplacement :
+		if (textSaisi instanceof Integer) {
+			//Passer par envoi comme ligne au dessus
+			((JeuClient) leJeu).envoi(Constante.ordreAction + Constante.separation + textSaisi);
+		}
+	}
+		
 
 	@Override
 	// recupere une reponse d'un ordi distant 
@@ -149,11 +177,10 @@ public class Controle implements AsyncResponse {
 		switch (ordre) {
 		// ordre connexion > serveur ou client
 		case Constante.laConnexion:
-			//connexion client> choix d'un joueur et creation d'une arene
+			//connexion client > choix d'un joueur et creation d'une arene
 			if(leJeu instanceof JeuClient) {
 				choixJoueur = new ChoixJoueur(this);
 				choixJoueur.setVisible(true);
-				//TOTO vraiment creer une nouvelle arene???
 				arene = new Arene(this);
 				getArene().setVisible(false);
 				this.frmEntreeJeu.dispose();
@@ -161,7 +188,7 @@ public class Controle implements AsyncResponse {
 			// Connection avec serveur <> client  :
 			leJeu.connexion(connexion); 
 			break;
-			
+		// Reception de la connection (serveur ou client) :	
 		case Constante.lareception:	
 			leJeu.reception(connexion, info);
 			break;

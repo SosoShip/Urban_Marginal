@@ -36,12 +36,17 @@ public class JeuServeur extends Jeu {
 	 * Communication avec la classe arene
 	 */
 	private Arene arene;
+	/**
+	 * Retourne le frame de l'arene en cour:
+	 * @return
+	 */
 	public Arene getArene() {
 		return arene;
 	}
 
 	/**
 	 * Constructeur
+	 * @param controle
 	 */
 	public JeuServeur(Controle controle) {
 		this.controleJeu = controle;
@@ -56,8 +61,8 @@ public class JeuServeur extends Jeu {
 	public void reception(Connection connexion, Object info) {
 		String infoDuPerso[] = ((String)info).split(Constante.separation); 
 		
-		switch(infoDuPerso[0]) {
-		case Constante.infoDuPerso:
+		switch (infoDuPerso[0]) {
+		case Constante.infoDuPerso :
 			// Envoi du num de connexion client afin d'afficher les murs coté client
 			controleJeu.evenementJeuServeur(Constante.ordreAjoutPanelMurs, (Object)connexion);
 			// récupération du numero de personnage (cast en int)
@@ -74,10 +79,13 @@ public class JeuServeur extends Jeu {
 			controleJeu.evenementJeuServeur(Constante.ordreAjoutChat, (Object)"*** " + infoDuPerso[1] + " vient de se connecter ***");
 			break;
 			// Concatène le pseudo et sa phrase :
-		case Constante.ordreLeChat:
+		case Constante.ordreLeChat :
 			//verifier si la phrase est bien infoDuPerso[1]
 			String chatSaisi = lesJoueurs.get(connexion).getPseudo() + " > " + infoDuPerso[1];			
 			controleJeu.evenementJeuServeur(Constante.ordreAjoutChat, (Object)chatSaisi);
+			break;
+		case Constante.ordreAction :
+			lesJoueurs.get(connexion).action((Integer.parseInt(infoDuPerso[1])), Collections.list(lesJoueurs.keys()));
 			break;
 		default:
 			throw new IllegalArgumentException("Unexpected value: ");
@@ -92,7 +100,7 @@ public class JeuServeur extends Jeu {
 	 * G�n�ration des murs
 	 */
 	public void constructionMurs() {
-		for(Integer i = 1; i <= 20; i++) {
+		for (Integer i = 1; i <= 20; i++) {
 			Mur unMur = new Mur();
 			unMur.objectLengthX = Constante.tailleDesMurs;
 			unMur.objectHeightY = Constante.tailleDesMurs;
@@ -112,7 +120,7 @@ public class JeuServeur extends Jeu {
 	/**
 	 *  Envoi de l'ordre pour effectuer un changement de panel à tous les joueurs :
 	 */
-	public void EnvoiJeuATous() {
+	public void envoiJeuATous() {
 		for (Connection connect : lesJoueurs.keySet()) {
 			controleJeu.evenementJeuServeur(Constante.ordreAjoutTousLesLblJeu, (Object)connect);
 		}
@@ -122,14 +130,17 @@ public class JeuServeur extends Jeu {
 	 * Envoi du chat mis à jour à chaque joueur :
 	 */
 	@Override
-	public void envoi( Connection connexion, Object info) {
-		//ArrayList<Connection> connectJoueur = new ArrayList<>();
-		ArrayList<Connection> connectJoueur = Collections.list(lesJoueurs.keys());
+	public void envoi( Connection connexion, Object info) {	
 		
-		for(Connection laConnectDUnJoueur : connectJoueur ){
+		
+		
+		for (Connection laConnectDUnJoueur : Collections.list(lesJoueurs.keys())){						
 			super.envoi(laConnectDUnJoueur, info);
+			
+			
+			
 		}
-	}	
+	}		
 }
 	
 	

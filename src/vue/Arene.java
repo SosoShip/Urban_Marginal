@@ -52,7 +52,8 @@ public class Arene extends JFrame {
 	private Controle controleJeu;
 
 	/**
-	 * Create the frame.
+	 * Create the frame:
+	 * @param controle
 	 */
 	public Arene(Controle controle) {
 		this.controleJeu = controle;
@@ -67,6 +68,20 @@ public class Arene extends JFrame {
 		this.contentPane = new JPanel();
 		setContentPane(this.contentPane);
 		this.contentPane.setLayout(null);
+			
+		if (this.controleJeu.isClient()) {
+			// Ecoute du déplacement sur le JPanel contentPane:
+			this.contentPane.addKeyListener(new KeyAdapter() {
+				@Override
+				public void keyPressed(KeyEvent e) {
+					if (e.getKeyCode() == KeyEvent.VK_DOWN || e.getKeyCode() == KeyEvent.VK_UP  
+						|| e.getKeyCode() == KeyEvent.VK_LEFT ||  e.getKeyCode() == KeyEvent.VK_RIGHT){ 
+						controleJeu.evenementArene((Object)e.getKeyCode());
+					}					
+				}
+			});
+		}
+		
 		
 		this.jpnJeu = new JPanel();
 		this.setJpnJeu(new JPanel());
@@ -85,9 +100,9 @@ public class Arene extends JFrame {
 		contentPane.add(getJpnMurs());
 		getJpnMurs().setLayout(null);
 	
-		// 	Création de la zon de saisie coté jeuClient :	
-		if (controleJeu.isClient()) {			
-		
+		// 	Création de la zone de saisie coté jeuClient :	
+		if (this.controleJeu.isClient()) {			
+			// Ecoute  des entrées sur le JPanel saisie du chat:
 			this.txtSaisie = new JTextField();
 			this.txtSaisie.addKeyListener(new KeyAdapter() {
 				@Override
@@ -112,7 +127,18 @@ public class Arene extends JFrame {
 		
 		this.txtChat = new JTextArea();		
 		jspChat.setViewportView(this.txtChat);
-		this.txtChat.setEditable(false);
+		this.txtChat.setEditable(false);		
+		// Ecoute du déplacement sur le JPanel contentPane:
+		this.txtChat.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if (e.getKeyCode() == KeyEvent.VK_KP_DOWN || e.getKeyCode() == KeyEvent.VK_KP_UP  
+					|| e.getKeyCode() == KeyEvent.VK_KP_LEFT ||  e.getKeyCode() == KeyEvent.VK_KP_RIGHT){ 
+					controleJeu.evenementArene((Object)e.getKeyCode());
+				}					
+			}
+		});
+		
 		
 		JLabel lblFond = new JLabel("");
 		String chemin = "fonds\\fondarene.jpg";
@@ -140,16 +166,16 @@ public class Arene extends JFrame {
 	/**
 	 * Ajoute le texte dsais par un joueur au tchat :
 	 * @param textSaisi
-	 * @return
+	 * @return getTxtChat()
 	 */
 	public String ajoutChat(String textSaisi) {
-		this.setTxtChat( getTxtChat() + "\r\n" + textSaisi + "\r\n");
+		this.setTxtChat(getTxtChat() + "\r\n" + textSaisi + "\r\n");
 		return getTxtChat();
 	}	
 
 	/**
 	 * getter panel Mur :
-	 * @return
+	 * @return jpnMurs
 	 */
 	public JPanel getJpnMurs() {
 		return this.jpnMurs;
@@ -166,7 +192,7 @@ public class Arene extends JFrame {
 
 	/**
 	 * getter panel jeu :
-	 * @return
+	 * @return jpnJeu
 	 */
 	public JPanel getJpnJeu() {
 		return this.jpnJeu;
@@ -180,11 +206,13 @@ public class Arene extends JFrame {
 		this.jpnJeu.removeAll();		
 		this.jpnJeu.add(jpnJeu);
 		this.jpnJeu.repaint();
+		// ici ou avant l'ecoute des fleche?
+		this.contentPane.requestFocus();
 	}
 
 	/**
 	 * Getter texte du chat :
-	 * @return
+	 * @return txtChat.getText()
 	 */
 	public String getTxtChat() {
 		//return txtChat;

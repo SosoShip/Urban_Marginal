@@ -7,6 +7,10 @@ package controleur;
  */
 public class Constante {	
 	/**
+	 * N° du port de connexion du ServeurSocket:
+	 */
+	public static final int port = 6666;
+	/**
 	 * Chaine de caratere permetant de lancer un jeu coté serveur :
 	 */
 	public static final String jeuServeur = "jeuServeur";
@@ -30,6 +34,8 @@ public class Constante {
 	 * Chaine de caratere permetant de visualiser l'ordre d'une déconnection :
 	 */
 	public static final String laDeConnexion = "laDeConnexion";
+	
+	
 	/**
 	 * Chaine de caratere permetant de visualiser l'ordre d'ajout d'un mur :
 	 */
@@ -58,6 +64,10 @@ public class Constante {
 	 * ordre d'ajouter la phrase saisie par un joueur dans le chat :
 	 */
 	public static final String modifChat = "modifLeChat";
+	/**
+	 * ordre de réaliser l'action d'un joueur :
+	 */
+	public static final String ordreAction = "action";
 	
 	
 	/**

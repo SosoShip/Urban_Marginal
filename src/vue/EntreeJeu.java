@@ -35,7 +35,7 @@ public class EntreeJeu extends JFrame {
 	 * clic sur le bouton Start pour lancer le serveur
 	 */
 	private void btnStart_clic() {
-		controle.evenementEntréeJeu(Constante.jeuServeur);		
+		controle.evenementEntreeJeu(Constante.jeuServeur);		
 	}
 	
 	/**
@@ -49,11 +49,12 @@ public class EntreeJeu extends JFrame {
 	 * clic sur le bouton Connect pour se connecter � un serveur
 	 */
 	private void btnConnect_clic() {
-		controle.evenementEntréeJeu(txtIp.getText());		
+		controle.evenementEntreeJeu(txtIp.getText());		
 	}
 
 	/**
 	 * Create the frame.
+	 * @param controle
 	 */
 	public EntreeJeu(Controle controle) {
 		setResizable(false);

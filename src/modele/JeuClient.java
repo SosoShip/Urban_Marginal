@@ -10,11 +10,18 @@ import javax.swing.JPanel;
  *
  */
 public class JeuClient extends Jeu {
+	/**
+	 * instance de la connexion du jeu en cour:
+	 */
 	private Connection connexion;
+	/**
+	 * Retourne vrai si le panel de mur à déja été affiché:
+	 */
 	boolean mursOk = false;
 	
 	/**
 	 * Constructeur :
+	 * @param controle
 	 */
 	public JeuClient(Controle controle) {
 		this.controleJeu = controle;
@@ -51,6 +58,7 @@ public class JeuClient extends Jeu {
 	/**
 	 * Envoi d'une information vers le serveur
 	 * fais appel une fois � l'envoi dans la classe Jeu
+	 * @param info
 	 */
 	public void envoi(String info) {
 		super.envoi(connexion, (Object)info);

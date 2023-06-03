@@ -45,6 +45,9 @@ public class ChoixJoueur extends JFrame {
 	 */
 	private JTextField txtPseudo;
 	
+	/**
+	 * N° du personnage selectionné dans IHM
+	 */
 	private int selectedNumPerso = 0 ;
 	
 	/**
@@ -81,10 +84,13 @@ public class ChoixJoueur extends JFrame {
 		else {
 			JOptionPane.showMessageDialog(null, "La saisie du pseudo est obligatoire");
 			txtPseudo.grabFocus();
-		}
-		
+		}		
 	}
 
+	/**
+	 * Affiche le label du pesonnage :
+	 * @param numPersonnage
+	 */
 	private void affichePerso(int numPersonnage) {
 		String chemin = "personnages\\perso"+numPersonnage+"marche1d1.gif";
 		URL resource = getClass().getClassLoader().getResource(chemin);
@@ -135,7 +141,8 @@ public class ChoixJoueur extends JFrame {
 	
 	
 	/**
-	 * Create the frame.
+	 * Constructeur ;
+	 * @param controle
 	 */
 	public ChoixJoueur(Controle controle) {
 		// Dimension de la frame en fonction de son contenu
