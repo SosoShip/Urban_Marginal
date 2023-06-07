@@ -16,20 +16,20 @@ import controleur.Constante;
 import outils.connexion.Connection;
 
 /**
- * Gestion des joueurs
+ * Gestion des joueurs :
  *
  */
 public class Joueur extends Objet {
 	/**
-	 * instance de JeuServeur pour communiquer avec lui
+	 * instance de JeuServeur pour communiquer avec lui :
 	 */
 	private JeuServeur jeuServeur ;
 	/**
-	 * num�ro d'�tape dans l'animation (de la marche, touch� ou mort)
+	 * num�ro d'�tape dans l'animation (de la marche, touch� ou mort) :
 	 */
 	private int etape ;
 	/**
-	 * la boule du joueur
+	 * la boule du joueur :
 	 */
 	private Boule boule ;
 	/**
@@ -37,22 +37,29 @@ public class Joueur extends Objet {
 	 */
 	private String pseudo ;
 	/**
-	 * numero correspondant au personnage (avatar) pour le fichier correspondant
+	 * numero correspondant au personnage (avatar) pour le fichier correspondant :
 	 */
-	// pourquoi ChoixJoueur demande qu'il soit en static??
 	public int numPerso = 0; 
 	/**
 	 * vie restante du joueur
 	 */
 	private int vie ; 
 	/**
-	 * tourn� vers la gauche (0) ou vers la droite (1)
+	 * tourn� vers la gauche (0) ou vers la droite (1) :
 	 */
 	private int orientation ;
 	/**
 	 * message du joueur :
 	 */
 	private static JLabel lblMessage;
+	/**
+	 * Un joueur touche un mur :
+	 */
+	Boolean isTouchMur = true;
+	/**
+	 * Un joueur touche un autre joueur :
+	 */
+	Boolean isTouchJoueur = true;
 	
 	/**
 	 * Retourne le frame de l'arene en cour:
@@ -106,10 +113,9 @@ public class Joueur extends Objet {
 	 * @param Collection<>
 	 */
 	private void premierePosition(ArrayList<Mur> lesMurs, Collection<Joueur> lesJoueurs) {
-		Boolean isTouchMur = true;
-		Boolean isTouchJoueur = true;
+		
 		while (isTouchMur || isTouchJoueur) {
-			// Nombres aléatoires pour placer les murs sur X et y :
+			// Nombres aléatoires pour placer les joueurs sur X et y :
 			int minX = 0 + Constante.tailleDesJoueurs;
 			int maxX = Constante.longeurArene - Constante.tailleDesJoueurs;
 			this.posX = Common.randXY(minX, maxX);
@@ -121,7 +127,7 @@ public class Joueur extends Objet {
 			isTouchMur = this.toucheMur(lesMurs);
 			isTouchJoueur = this.toucheJoueur(lesJoueurs);
 			
-			if (!(isTouchMur && isTouchJoueur)) {
+			if (!(isTouchMur || isTouchJoueur)) {
 				break;
 			}
 		}
@@ -149,31 +155,36 @@ public class Joueur extends Objet {
 	 * @param lesJoueurs : ArrayList<Connection> : liste des joueurs :
 	 */
 	public void action(Integer mouv, ArrayList<Connection>lesJoueurs) {
+		// a la fin de conception méthode action voir si pertinent mutualiser setbounds et affiche
 		switch (mouv) {
 		// Down :
 		case KeyEvent.VK_DOWN :
-			lblJoueur.setBounds(this.posX, this.posY + 10, Constante.tailleDesJoueurs, Constante.tailleDesJoueurs + Constante.hauteurDuMsgJoueur);
+			this.posY = this.posY + 10;
+			lblJoueur.setBounds(this.posX, this.posY, Constante.tailleDesJoueurs, Constante.tailleDesJoueurs + Constante.hauteurDuMsgJoueur);
 			etape = 2;
 			orientation = 1;
 			affiche(etape, orientation);	
 			break;
 		// Up :
 		case KeyEvent.VK_UP :
-			lblJoueur.setBounds(this.posX, this.posY - 10, Constante.tailleDesJoueurs, Constante.tailleDesJoueurs + Constante.hauteurDuMsgJoueur);
+			this.posY = this.posY - 10;
+			lblJoueur.setBounds(this.posX, this.posY, Constante.tailleDesJoueurs, Constante.tailleDesJoueurs + Constante.hauteurDuMsgJoueur);
 			etape = 2;
 			orientation = 1;
 			affiche(etape, orientation);	
 			break;
 		// Left :
 		case KeyEvent.VK_LEFT :
-			lblJoueur.setBounds(this.posX - 10, this.posY, Constante.tailleDesJoueurs, Constante.tailleDesJoueurs + Constante.hauteurDuMsgJoueur);
+			this.posX = this.posX - 10;
+			lblJoueur.setBounds(this.posX, this.posY, Constante.tailleDesJoueurs, Constante.tailleDesJoueurs + Constante.hauteurDuMsgJoueur);
 			etape = 2;
 			orientation = 0;
 			affiche(etape, orientation);	
 			break;
 		// Right :
 		case KeyEvent.VK_RIGHT :
-			lblJoueur.setBounds(this.posX + 10, this.posY, Constante.tailleDesJoueurs, Constante.tailleDesJoueurs + Constante.hauteurDuMsgJoueur);
+			this.posX = this.posX + 10;
+			lblJoueur.setBounds(this.posX, this.posY, Constante.tailleDesJoueurs, Constante.tailleDesJoueurs + Constante.hauteurDuMsgJoueur);
 			etape = 2;
 			orientation = 1;
 			affiche(etape, orientation);	
@@ -195,22 +206,14 @@ public class Joueur extends Objet {
 	 * @return Boolean
 	 */
 	private Boolean toucheJoueur(Collection<Joueur> lesJoueurs) {
-		boolean istouch = false;
 		for (Joueur unJoueur : lesJoueurs) {
-			istouch = this.toucheObjet(unJoueur);
-			if(istouch) {
-				istouch = true;
-				if(this.equals(unJoueur)) {
-					istouch = false;
-				}
-			}
+			isTouchJoueur = super.toucheObjet(unJoueur);
+			if(this.equals(unJoueur)) {
+				isTouchJoueur = false;
+			}			
 		}
-		if (istouch) {
-			return true;
-		}
-		else {
-			return false;
-		}
+
+		return isTouchJoueur;
 	}
 
 	/**
@@ -220,12 +223,12 @@ public class Joueur extends Objet {
 	 */
 	private Boolean toucheMur(ArrayList<Mur> lesMurs) {
 		for (Mur unMur : lesMurs) {			
-			boolean istouch = this.toucheObjet(unMur);
-			if(istouch) {
-				return true;
-			}		
+			isTouchMur = super.toucheObjet(unMur);
+			if (isTouchMur)	{
+				break;
+			}
 		}
-		return false;
+		return isTouchMur;
 	}
 	
 	/**

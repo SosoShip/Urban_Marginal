@@ -24,10 +24,12 @@ public class Mur extends Objet {
 		int minX = 0 + Constante.tailleDesMurs;
 		int maxX = Constante.longeurArene;
 		posX = Common.randXY(minX, maxX);
+		this.objectLengthX = posX;
 
 		int minY = 0 + Constante.tailleDesMurs;
 		int maxY = Constante.hauteurArene;
-		posY = Common.randXY(minY, maxY);	
+		posY = Common.randXY(minY, maxY);
+		this.objectHeightY = posY;
 		
 		// label deffinissant les murs :
 		lblMur = new JLabel("");
