@@ -85,7 +85,7 @@ public class Constante {
 	/**
 	 * largeur et hauteur des joueurs :
 	 */
-	public static final int tailleDesJoueurs = 50;
+	public static final int tailleDesJoueurs = 35;
 	/**
 	 * Hauteur du label joueur:
 	 */
@@ -93,7 +93,7 @@ public class Constante {
 	/**
 	 * Hauteur du label joueur:
 	 */
-	public static final int largeurDuMsgJoueur = 70;
+	public static final int largeurDuMsgJoueur = 45;
 	/**
 	 * icone du personnage marche :
 	 */
@@ -106,12 +106,20 @@ public class Constante {
 	 * icone du personnage mort :
 	 */
 	public static String mort = "iconeMort";
+	/**
+	 * Nombre d'icone maximum du joueur en train de marcher :
+	 */
+	public static int etapeMax = 4;
+	/**
+	 * Taille du pas des joueurs :
+	 */
+	public static final int tailleDUnPas = 10;
 
 	
 	/**
 	 * largeur et hauteur des murs :
 	 */
-	public static final int tailleDesMurs = 50;	
+	public static final int tailleDesMurs = 35;	
 	/**
 	 * Hauteur de l'arene :
 	 */

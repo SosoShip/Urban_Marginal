@@ -54,13 +54,19 @@ public class JeuServeur extends Jeu {
 	
 	@Override
 	public void connexion(Connection connexion) {
+		
+		if(connexion == null)
+		{
+			throw new IllegalArgumentException("Could not connect : connection null");
+		}
+		
 		lesJoueurs.put(connexion, new Joueur(this));
 	}
 
 	@Override
 	public void reception(Connection connexion, Object info) {
 		String infoDuPerso[] = ((String)info).split(Constante.separation); 
-		
+		// infoDuPerso[0] = ordre
 		switch (infoDuPerso[0]) {
 		case Constante.infoDuPerso :
 			// Envoi du num de connexion client afin d'afficher les murs coté client
@@ -68,6 +74,7 @@ public class JeuServeur extends Jeu {
 			// récupération du numero de personnage (cast en int)
 			int numPerso = 0;
 			try {
+				//infoDuPerso[2] = numPerso
 				numPerso = Integer.parseInt(infoDuPerso[2]);
 			}
 			catch (Exception ex){
@@ -75,18 +82,31 @@ public class JeuServeur extends Jeu {
 	            return;
 			}
 			//Initialisation du joueur :
+			// infoDuPerso[1] = pseudo
 			lesJoueurs.get(connexion).initPerso(infoDuPerso[1],  numPerso, lesMurs, (Collection)lesJoueurs.values());
 			controleJeu.evenementJeuServeur(Constante.ordreAjoutChat, (Object)"*** " + infoDuPerso[1] + " vient de se connecter ***");
 			break;
+			
 			// Concatène le pseudo et sa phrase :
 		case Constante.ordreLeChat :
 			//verifier si la phrase est bien infoDuPerso[1]
 			String chatSaisi = lesJoueurs.get(connexion).getPseudo() + " > " + infoDuPerso[1];			
 			controleJeu.evenementJeuServeur(Constante.ordreAjoutChat, (Object)chatSaisi);
 			break;
-		case Constante.ordreAction :
-			lesJoueurs.get(connexion).action((Integer.parseInt(infoDuPerso[1])), Collections.list(lesJoueurs.keys()));
+			
+		case Constante.ordreAction :		
+			int deplacement  = 0;
+			try {
+				//infoDuPerso[1] = deplacement 
+				deplacement = Integer.parseInt(infoDuPerso[1]);
+			}
+			catch (Exception ex){
+	            ex.printStackTrace();
+	            return;
+			}
+			lesJoueurs.get(connexion).action((deplacement), lesMurs, (Collection)lesJoueurs.values());
 			break;
+			
 		default:
 			throw new IllegalArgumentException("Unexpected value: ");
 		}

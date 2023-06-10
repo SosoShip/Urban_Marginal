@@ -44,7 +44,7 @@ public abstract class Objet<get> {
 	 * @return true si les 2 objets se touchent
 	 */
 	public Boolean toucheObjet (Objet objet) {
-		// Simplification des coordonées X et Y des objets :
+		// Simplification des coordonées X et Y des objets entre eux :
 		boolean posXInferieur = this.posX < objet.posX 
 				&& this.posX + this.objectLengthX < objet.posX;
 		boolean posXSuperieur = this.posX > objet.posX + objet.objectLengthX 
