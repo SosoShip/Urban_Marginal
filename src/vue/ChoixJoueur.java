@@ -156,7 +156,7 @@ public class ChoixJoueur extends JFrame {
 	/*
 	 * Souris en forme de main sur les zones clickables :
 	 */
-	private void sourisMain() {
+	private void sourisMain() { 
 		contentPane.setCursor(new Cursor(Cursor.HAND_CURSOR));
 	}
 	
