@@ -1,5 +1,8 @@
 package modele;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 import javax.swing.JLabel;
 
 import controleur.Constante;
@@ -37,6 +40,26 @@ public abstract class Objet<get> {
 	 * JLabel joueur utilisés par toute les classes :
 	 */
 	protected JLabel lblJoueur;
+	/** 
+	 * Visuel de la boule :
+	 */
+	protected JLabel lblBoule;
+	
+	/**
+	 * Contr�le si le joueur touche un des murs
+	 * @param ArrayList<>
+	 * @return Boolean
+	 */
+	protected Boolean toucheMur(ArrayList<Mur> lesMurs) {
+		Boolean isTouchMur = false;
+		for (Mur unMur : lesMurs) {			
+			isTouchMur = toucheObjet(unMur);
+			if (isTouchMur)	{
+				break;
+			}
+		}
+		return isTouchMur;
+	}
 	
 	/**
 	 * contr�le si l'objet actuel touche l'objet pass� en param�tre
@@ -45,14 +68,14 @@ public abstract class Objet<get> {
 	 */
 	public Boolean toucheObjet (Objet objet) {
 		// Simplification des coordonées X et Y des objets entre eux :
-		boolean posXInferieur = this.posX < objet.posX 
-				&& this.posX + this.objectLengthX < objet.posX;
-		boolean posXSuperieur = this.posX > objet.posX + objet.objectLengthX 
-				&& this.posX + this.objectLengthX > objet.posX + objet.objectLengthX;
-		boolean posYInferieur = this.posY < objet.posY 
-				&& this.posY + this.objectHeightY < objet.posY;
-		boolean posYSuperieur = this.posY > objet.posY + objet.objectHeightY 
-				&& this.posY + this.objectHeightY > objet.posY + objet.objectHeightY;
+		boolean posXInferieur = this.getPosX() < objet.getPosX() 
+				&& this.getPosX() + this.objectLengthX < objet.getPosX();
+		boolean posXSuperieur = this.getPosX() > objet.getPosX() + objet.objectLengthX 
+				&& this.getPosX() + this.objectLengthX > objet.getPosX() + objet.objectLengthX;
+		boolean posYInferieur = this.getPosY() < objet.getPosY() 
+				&& this.getPosY() + this.objectHeightY < objet.getPosY();
+		boolean posYSuperieur = this.getPosY() > objet.getPosY() + objet.objectHeightY 
+				&& this.getPosY() + this.objectHeightY > objet.getPosY() + objet.objectHeightY;
 				
 		if((this == null)||(objet == null)) {
 			return null;
@@ -65,6 +88,22 @@ public abstract class Objet<get> {
 				return false;
 			}
 		}		
+	}
+
+	/**
+	 * retourne la position de l'objet sur l'axe des ordonées :
+	 * @return int
+	 */
+	protected int getPosX() {
+		return posX;
+	}
+
+	/**
+	 * retourne la position de l'objet sur l'axe des abcisses :
+	 * @return int
+	 */
+	protected int getPosY() {
+		return posY;
 	}
 	
 }

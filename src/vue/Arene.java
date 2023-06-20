@@ -75,7 +75,8 @@ public class Arene extends JFrame {
 				@Override
 				public void keyPressed(KeyEvent e) {
 					if (e.getKeyCode() == KeyEvent.VK_DOWN || e.getKeyCode() == KeyEvent.VK_UP  
-						|| e.getKeyCode() == KeyEvent.VK_LEFT ||  e.getKeyCode() == KeyEvent.VK_RIGHT){ 
+						|| e.getKeyCode() == KeyEvent.VK_LEFT ||  e.getKeyCode() == KeyEvent.VK_RIGHT
+						|| e.getKeyCode() == KeyEvent.VK_SPACE){ 
 						controleJeu.evenementArene((Object)e.getKeyCode());
 					}					
 				}
@@ -128,12 +129,13 @@ public class Arene extends JFrame {
 		this.txtChat = new JTextArea();		
 		jspChat.setViewportView(this.txtChat);
 		this.txtChat.setEditable(false);		
-		// Ecoute du déplacement sur le JPanel contentPane:
+		// Ecoute du déplacement et des tirs sur le JPanel contentPane:
 		this.txtChat.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
 				if (e.getKeyCode() == KeyEvent.VK_KP_DOWN || e.getKeyCode() == KeyEvent.VK_KP_UP  
-					|| e.getKeyCode() == KeyEvent.VK_KP_LEFT ||  e.getKeyCode() == KeyEvent.VK_KP_RIGHT){ 
+					|| e.getKeyCode() == KeyEvent.VK_KP_LEFT ||  e.getKeyCode() == KeyEvent.VK_KP_RIGHT
+					|| e.getKeyCode() == KeyEvent.VK_SPACE){ 
 					controleJeu.evenementArene((Object)e.getKeyCode());
 				}					
 			}

@@ -77,15 +77,19 @@ public class Constante {
 	/**
 	 * gain de points de vie lors d'une attaque :
 	 */
-	public static final int GAIN = 1 ; 
+	public static final int gain = 1 ; 
 	/**
 	 * perte de points de vie lors d'une attaque :
 	 */
-	public static final int PERTE = 2 ; 	
+	public static final int perte = 2 ; 	
 	/**
 	 * largeur et hauteur des joueurs :
 	 */
-	public static final int tailleDesJoueurs = 35;
+	public static final int hauteurJoueurs = 48;
+	/**
+	 * largeur et hauteur des joueurs :
+	 */
+	public static final int largeurJoueurs = 35;
 	/**
 	 * Hauteur du label joueur:
 	 */
@@ -95,17 +99,25 @@ public class Constante {
 	 */
 	public static final int largeurDuMsgJoueur = 45;
 	/**
+	 * Hauteur du label joueur:
+	 */
+	public static final int tailleBoule = 18;
+	/**
+	 * Hauteur du label joueur:
+	 */
+	public static int vitesseBoule = 10;
+	/**
 	 * icone du personnage marche :
 	 */
-	public static String marche = "iconeMarche";
+	public static String marche = "marche";
 	/**
 	 * icone du personnage touché :
 	 */
-	public static String touche = "iconeTouche";
+	public static String touche = "touche";
 	/**
 	 * icone du personnage mort :
 	 */
-	public static String mort = "iconeMort";
+	public static String mort = "mort";
 	/**
 	 * Nombre d'icone maximum du joueur en train de marcher :
 	 */

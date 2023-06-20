@@ -29,6 +29,10 @@ public class Joueur extends Objet {
 	 */
 	private int etape ;
 	/**
+	 * tourn� vers la gauche (0) ou vers la droite (1) :
+	 */
+	private int orientation ;
+	/**
 	 * la boule du joueur :
 	 */
 	private Boule boule ;
@@ -45,13 +49,9 @@ public class Joueur extends Objet {
 	 */
 	private int vie ; 
 	/**
-	 * tourn� vers la gauche (0) ou vers la droite (1) :
-	 */
-	private int orientation ;
-	/**
 	 * message du joueur :
 	 */
-	private static JLabel lblMessage;
+	private JLabel lblMessage;
 	/**
 	 * Un joueur touche un mur :
 	 */
@@ -83,28 +83,33 @@ public class Joueur extends Objet {
 		//Caractéristiques du joueur :
 		pseudo = pseudoDuJoueur.toString();
 		numPerso = numDuPerso;
-		this.objectLengthX = Constante.tailleDesJoueurs;
-		this.objectHeightY = Constante.tailleDesJoueurs + Constante.hauteurDuMsgJoueur;	
+		this.objectLengthX = Constante.largeurJoueurs;
+		this.objectHeightY = Constante.hauteurJoueurs + Constante.hauteurDuMsgJoueur;	
 		
 		// Création du label Joueur :
-		lblJoueur = new JLabel("");
+		this.lblJoueur = new JLabel("");
 			
 		//ajout du Label message au label joueur:
 		lblMessage = new JLabel("");
-		lblMessage.setBounds(this.posX - 10, this.posY + Constante.tailleDesJoueurs, Constante.largeurDuMsgJoueur, Constante.hauteurDuMsgJoueur);
+		lblMessage.setBounds(this.getPosX() - 10, this.getPosY() + Constante.hauteurJoueurs , Constante.largeurDuMsgJoueur, Constante.hauteurDuMsgJoueur);
 		
+		// Création de la boule du joueur :
+		boule = new Boule(this.jeuServeur);
+
 		//Placement de depart du joueur et de son message :
 		premierePosition(lesMurs, lesJoueurs);		
-		lblJoueur.setBounds(this.posX, this.posY, Constante.tailleDesJoueurs, Constante.tailleDesJoueurs + Constante.hauteurDuMsgJoueur);
+		this.lblJoueur.setBounds(this.getPosX(), this.getPosY(), Constante.largeurJoueurs, Constante.hauteurJoueurs + Constante.hauteurDuMsgJoueur);
 		
 		Font fontMessage = new Font("Dialog",Font.BOLD, 8);
 		lblMessage.setFont(fontMessage);
 		lblMessage.setHorizontalAlignment(SwingConstants.CENTER);
-		lblJoueur.add(lblMessage);
-		lblJoueur.repaint();
+		this.lblJoueur.add(lblMessage);
+		this.lblJoueur.repaint();
 		
-		jeuServeur.ajoutJLabelJeu(lblJoueur);	
-		affiche(etape, orientation);	
+		this.jeuServeur.ajoutJLabelJeu(this.lblJoueur);	
+		//this.jeuServeur.ajoutJLabelJeu(lblMessage);	
+		this.jeuServeur.ajoutJLabelJeu(boule.lblBoule);	
+		affiche(Constante.marche, etape, getOrientation());	
 	}
 
 	/**
@@ -116,15 +121,15 @@ public class Joueur extends Objet {
 		
 		while (isTouchMur || isTouchJoueur) {
 			// Nombres aléatoires pour placer les joueurs sur X et y :
-			int minX = 0 + Constante.tailleDesJoueurs;
-			int maxX = Constante.longeurArene - Constante.tailleDesJoueurs;
+			int minX = 0 + Constante.largeurJoueurs;
+			int maxX = Constante.longeurArene - Constante.largeurJoueurs;
 			this.posX = Common.randXY(minX, maxX);
 
-			int minY = 0 + Constante.tailleDesJoueurs;
-			int maxY = Constante.hauteurArene - Constante.tailleDesJoueurs;
+			int minY = 0 + Constante.hauteurJoueurs;
+			int maxY = Constante.hauteurArene - Constante.hauteurJoueurs;
 			this.posY = Common.randXY(minY, maxY);	
 			
-			isTouchMur = this.toucheMur(lesMurs);
+			isTouchMur = super.toucheMur(lesMurs);
 			isTouchJoueur = this.toucheJoueur(lesJoueurs);
 			
 			if (!(isTouchMur || isTouchJoueur)) {
@@ -138,76 +143,93 @@ public class Joueur extends Objet {
 	 * @param int
 	 * @param int
 	 */
-	public void affiche(int etape, int orientation) {
+	public void affiche(String position, int etape, int orientation) {
 		// image du joueur
-		String chemin = "personnages\\perso"+numPerso+"marche"+etape+"d"+orientation+".gif";
+		String chemin = "personnages\\perso" + numPerso + position + etape + "d" + orientation + ".gif";
 		URL resource = getClass().getClassLoader().getResource(chemin);
-		lblJoueur.setIcon(new ImageIcon(resource));
+		this.lblJoueur.setIcon(new ImageIcon(resource));
 		// Message du joueur
-		lblMessage.setText(pseudo +" : "+ vie );
+		this.lblMessage.setText(this.pseudo +" : "+ this.vie );
 		// ordre d'envoi du pannel joueur a tous les joueurs :
 		this.jeuServeur.envoiJeuATous();
 	}
 
 	/**
-	 * G�re une action re�ue et qu'il faut afficher (d�placement, tire de boule...)
+	 * G�re une action de déplacement :
 	 * @param mouv : Integer représentant l'action du joueur :
+	 * @param  : ArrayList<Mur> : Liste de Murs
 	 * @param lesJoueurs : ArrayList<Connection> : liste des joueurs :
 	 */
-	public void action(Integer mouv, ArrayList<Mur> lesMurs, Collection<Joueur> lesJoueurs) {
+	public void actionDeplacement(Integer mouv, ArrayList<Mur> lesMurs, Collection<Joueur> lesJoueurs) {
 		// a la fin de conception méthode action voir si pertinent mutualiser setbounds et affiche
 
 		switch (mouv) {
 		// Down :
 		case KeyEvent.VK_DOWN :
-			this.posY = this.posY + Constante.tailleDUnPas;
+			this.posY = this.getPosY() + Constante.tailleDUnPas;
 			
-			if ((this.sortDeLArene(this.posX,this.posY)) 
-					|| (this.toucheMur(lesMurs))
+			if ((this.sortDeLArene(this.getPosX(),this.getPosY())) 
+					|| (super.toucheMur(lesMurs))
 					|| (this.toucheJoueur(lesJoueurs))) {
-				this.posY = this.posY - Constante.tailleDUnPas;
+				this.posY = this.getPosY() - Constante.tailleDUnPas;
 			}				
 			break;
 			
 		// Up :
 		case KeyEvent.VK_UP :
-			this.posY = this.posY - Constante.tailleDUnPas;
-			if ((this.sortDeLArene(this.posX,this.posY))
-				|| (this.toucheMur(lesMurs))
+			this.posY = this.getPosY() - Constante.tailleDUnPas;
+			if ((this.sortDeLArene(this.getPosX(),this.getPosY()))
+				|| (super.toucheMur(lesMurs))
 				|| (this.toucheJoueur(lesJoueurs))) {
-				this.posY = this.posY + Constante.tailleDUnPas;
+				this.posY = this.getPosY() + Constante.tailleDUnPas;
 			}				
 			break;
 			
 		// Left :
 		case KeyEvent.VK_LEFT :
 			orientation = 0;
-			this.posX = this.posX - Constante.tailleDUnPas;
-			if ((this.sortDeLArene(this.posX,this.posY))
-					|| (this.toucheMur(lesMurs))
+			this.posX = this.getPosX() - Constante.tailleDUnPas;
+			if ((this.sortDeLArene(this.getPosX(),this.getPosY()))
+					|| (super.toucheMur(lesMurs))
 					|| (this.toucheJoueur(lesJoueurs))) {
-				this.posX = this.posX + Constante.tailleDUnPas;
+				this.posX = this.getPosX() + Constante.tailleDUnPas;
 			}				
 			break;
 			
 		// Right :
 		case KeyEvent.VK_RIGHT :
 			orientation = 1;
-			this.posX = this.posX + Constante.tailleDUnPas;
-			if ((this.sortDeLArene(this.posX,this.posY))
-					|| (this.toucheMur(lesMurs))
+			this.posX = this.getPosX() + Constante.tailleDUnPas;
+			if ((this.sortDeLArene(this.getPosX(),this.getPosY()))
+					|| (super.toucheMur(lesMurs))
 					|| (this.toucheJoueur(lesJoueurs))) {
-				this.posX = this.posX - Constante.tailleDUnPas;
+				this.posX = this.getPosX() - Constante.tailleDUnPas;
 			}				
-			break;
+			break;		
+			
 		default:
 			throw new IllegalArgumentException("Unexpected value: ");			
 		}
+		
 		//Affichage du joueur :
-		this.courseDuJoueur(this.posX, this.posY);
-		this.affiche(etape, orientation);
+		this.courseDuJoueur(this.getPosX(), this.getPosY());
+		this.affiche(Constante.marche, etape, getOrientation());
 	}
 	
+	/**
+	 * Gere une action de tir : 
+	 * @param  : ArrayList<Mur> : Liste de Murs
+	 * @param lesJoueurs : ArrayList<Connection> : liste des joueurs :
+	 */
+	public void actionTir(ArrayList<Mur> lesMurs, Collection<Joueur> lesJoueurs) {
+		// Verification qu'une boule n'est pas déja tirée :
+		if (!boule.lblBoule.isVisible()) {
+			boule.tirBoule(this, lesMurs);
+			this.etape = 1;
+			this.affiche(Constante.marche, etape, getOrientation());
+		}				
+	}
+		
 	/**
 	 * Vérifie que la nouvelle position du joueur est dans les limites de l'arene :
 	 * @param posX
@@ -215,8 +237,8 @@ public class Joueur extends Objet {
 	 * @return sortDeLArene : boolean confirmant la sortie d'arene :
 	 */
 	public boolean sortDeLArene (int posX, int posY) {
-		boolean sortDeLArene = (this.posX <= 20 ) || (this.posX >= Constante.longeurArene - 20) 
-				|| (this.posY <= 20) || (this.posY >= Constante.hauteurArene - 20);
+		boolean sortDeLArene = (this.getPosX() <= 20 ) || (this.getPosX() >= Constante.longeurArene - 20) 
+				|| (this.getPosY() <= 20) || (this.getPosY() >= Constante.hauteurArene - 20);
 		return sortDeLArene;
 	}
 
@@ -235,7 +257,7 @@ public class Joueur extends Objet {
 		}
 		
 		// Position du joueur dans l'arene :
-		lblJoueur.setBounds(this.posX, this.posY, Constante.tailleDesJoueurs, Constante.tailleDesJoueurs + Constante.hauteurDuMsgJoueur);		
+		lblJoueur.setBounds(this.getPosX(), this.getPosY(), Constante.largeurJoueurs, Constante.hauteurJoueurs + Constante.hauteurDuMsgJoueur);		
 	}
 
 	/**
@@ -254,35 +276,27 @@ public class Joueur extends Objet {
 				return isTouchJoueur;
 			}
 		}
-
 		return isTouchJoueur;
 	}
 
-	/**
-	 * Contr�le si le joueur touche un des murs
-	 * @param ArrayList<>
-	 * @return Boolean
-	 */
-	private Boolean toucheMur(ArrayList<Mur> lesMurs) {
-		for (Mur unMur : lesMurs) {			
-			isTouchMur = super.toucheObjet(unMur);
-			if (isTouchMur)	{
-				break;
-			}
-		}
-		return isTouchMur;
-	}
-	
+		
 	/**
 	 * Gain de points de vie apr�s avoir touch� un joueur
 	 */
-	public void gainVie() {
+	public void gainVie(Joueur lejoueur) {
+		lejoueur.vie = lejoueur.vie + Constante.gain;
 	}
 	
 	/**
 	 * Perte de points de vie apr�s avoir �t� touch� 
 	 */
 	public void perteVie() {
+		if (this.vie > 1) {
+			this.vie = this.vie - Constante.perte;	
+		}
+		if (this.vie == 1) {
+			this.vie = 0;
+		}		
 	}
 	
 	/**
@@ -290,7 +304,12 @@ public class Joueur extends Objet {
 	 * @return true si vie = 0
 	 */
 	public Boolean estMort() {
-		return null;
+		if (this.vie == 0) {
+			return true;
+		}
+		else {
+			return false;
+		}
 	}
 	
 	/**
@@ -305,6 +324,18 @@ public class Joueur extends Objet {
 	 */
 	public String getPseudo() {
 		return pseudo;
+	}
+
+	/**
+	 * Retourne l'orientation du joueur :
+	 * @return int
+	 */
+	public int getOrientation() {
+		return orientation;
+	}
+	
+	public int getEtape() {
+		return etape;
 	}
 	
 }

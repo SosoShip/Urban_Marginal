@@ -24,16 +24,16 @@ public class Mur extends Objet {
 		int minX = 0 + Constante.tailleDesMurs;
 		int maxX = Constante.longeurArene;
 		posX = Common.randXY(minX, maxX);
-		this.objectLengthX = posX;
+		this.objectLengthX = getPosX();
 
 		int minY = 0 + Constante.tailleDesMurs;
 		int maxY = Constante.hauteurArene;
 		posY = Common.randXY(minY, maxY);
-		this.objectHeightY = posY;
+		this.objectHeightY = getPosY();
 		
 		// label deffinissant les murs :
 		lblMur = new JLabel("");
-		lblMur.setBounds(posX, posY, Constante.tailleDesMurs, Constante.tailleDesMurs);
+		lblMur.setBounds(getPosX(), getPosY(), Constante.tailleDesMurs, Constante.tailleDesMurs);
 		
 		String chemin = "murs\\mur.gif";
 		URL resource = getClass().getClassLoader().getResource(chemin);

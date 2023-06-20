@@ -2,6 +2,7 @@ package modele;
 
 
 
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -33,6 +34,13 @@ public class JeuServeur extends Jeu {
 	private Hashtable<Connection, Joueur> lesJoueurs = new Hashtable<Connection, Joueur>() ;
 	
 	/**
+	 * @return les joueurs du dictionnaire lesJoueurs :
+	 */
+	public Collection<Joueur> getLesJoueurs() {
+		return lesJoueurs.values();
+	}	
+	
+	/**
 	 * Communication avec la classe arene
 	 */
 	private Arene arene;
@@ -55,8 +63,7 @@ public class JeuServeur extends Jeu {
 	@Override
 	public void connexion(Connection connexion) {
 		
-		if(connexion == null)
-		{
+		if(connexion == null) {
 			throw new IllegalArgumentException("Could not connect : connection null");
 		}
 		
@@ -83,7 +90,7 @@ public class JeuServeur extends Jeu {
 			}
 			//Initialisation du joueur :
 			// infoDuPerso[1] = pseudo
-			lesJoueurs.get(connexion).initPerso(infoDuPerso[1],  numPerso, lesMurs, (Collection)lesJoueurs.values());
+			lesJoueurs.get(connexion).initPerso(infoDuPerso[1],  numPerso, lesMurs, getLesJoueurs());
 			controleJeu.evenementJeuServeur(Constante.ordreAjoutChat, (Object)"*** " + infoDuPerso[1] + " vient de se connecter ***");
 			break;
 			
@@ -95,17 +102,22 @@ public class JeuServeur extends Jeu {
 			break;
 			
 		case Constante.ordreAction :		
-			int deplacement  = 0;
+			int action = 0;
 			try {
-				//infoDuPerso[1] = deplacement 
-				deplacement = Integer.parseInt(infoDuPerso[1]);
+				//infoDuPerso[1] = deplacement ou tirs :
+				action = Integer.parseInt(infoDuPerso[1]);
 			}
 			catch (Exception ex){
 	            ex.printStackTrace();
 	            return;
 			}
-			lesJoueurs.get(connexion).action((deplacement), lesMurs, (Collection)lesJoueurs.values());
-			break;
+			if (action == KeyEvent.VK_SPACE)			{
+				lesJoueurs.get(connexion).actionTir(lesMurs, getLesJoueurs());
+			}
+			else {
+				lesJoueurs.get(connexion).actionDeplacement((action), lesMurs, (getLesJoueurs()));
+			}
+			break;	
 			
 		default:
 			throw new IllegalArgumentException("Unexpected value: ");
@@ -160,7 +172,8 @@ public class JeuServeur extends Jeu {
 			
 			
 		}
-	}		
+	}
+	
 }
 	
 	
