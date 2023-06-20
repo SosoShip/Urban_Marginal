@@ -14,6 +14,7 @@ import javax.swing.JTextField;
 import controleur.Constante;
 import controleur.Controle;
 import modele.Joueur;
+import outils.son.Son;
 
 import java.awt.Cursor;
 import java.awt.Dimension;
@@ -54,6 +55,22 @@ public class ChoixJoueur extends JFrame {
 	 * nombre de personnages maximum
 	 */
 	private int persoMax = 3;
+	/**
+	 * son de bienvenue :
+	 */
+	private Son soundWelcome = null;
+	/**
+	 * son bouton personnage precedant :
+	 */
+	private Son soundPrevious = null;
+	/**
+	 * son bouton personnage suivant :
+	 */
+	private Son soundNext = null;
+	/**
+	 * son bouton go :
+	 */
+	private Son soundGo = null;
 
 	/**
 	 * Clic sur la fl�che "pr�c�dent" pour afficher le personnage pr�c�dent
@@ -74,7 +91,8 @@ public class ChoixJoueur extends JFrame {
 	/**
 	 * Clic sur GO pour envoyer les informations
 	 */
-	private void lblGo_clic() {		
+	private void lblGo_clic() {	
+		soundGo.play();
 		//Verification de l'existence d'un pseudo :
 		if (!txtPseudo.getText().isEmpty()) {
 			controle.evenementChoixJoueur(txtPseudo.getText(), selectedNumPerso);
@@ -100,7 +118,9 @@ public class ChoixJoueur extends JFrame {
 	/**
 	 * Personnage suivant :
 	 */
-	private void personnageSuivant() {		
+	private void personnageSuivant() {	
+		soundNext.play();
+		
 		if (selectedNumPerso < persoMax) {
 			selectedNumPerso ++;		
 		}
@@ -114,6 +134,7 @@ public class ChoixJoueur extends JFrame {
 	 * personnage precedant :
 	 */
 	private void personnagePrecedant() {
+		soundPrevious.play();
 		
 		if (selectedNumPerso > 1) {
 			selectedNumPerso --;		
@@ -145,6 +166,23 @@ public class ChoixJoueur extends JFrame {
 	 * @param controle
 	 */
 	public ChoixJoueur(Controle controle) {
+		// Gestion des sons :
+		String cheminWelcomme = "sons\\welcome.wav";
+		URL resourceWelcome = getClass().getClassLoader().getResource(cheminWelcomme);
+		soundWelcome = new Son(resourceWelcome);
+		
+		String cheminPrevious = "sons\\precedent.wav";
+		URL resourcePrevious = getClass().getClassLoader().getResource(cheminPrevious);
+		soundPrevious = new Son(resourcePrevious);
+		
+		String cheminNext = "sons\\suivant.wav";
+		URL resourceNext = getClass().getClassLoader().getResource(cheminNext);
+		soundNext = new Son(resourceNext);
+		
+		String cheminGo = "sons\\go.wav";
+		URL resourceGo = getClass().getClassLoader().getResource(cheminGo);
+		soundGo = new Son(resourceGo);
+		
 		// Dimension de la frame en fonction de son contenu
 		this.getContentPane().setPreferredSize(new Dimension(400, 275));
 	    this.pack();
@@ -154,14 +192,15 @@ public class ChoixJoueur extends JFrame {
 		setTitle("Choice");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		contentPane = new JPanel();
-		setContentPane(contentPane);
+		setContentPane(contentPane);		
+		soundWelcome.play();		
 		contentPane.setLayout(null);
 		this.controle = controle;
 		
 		JLabel lblPrecedent = new JLabel("");
 		lblPrecedent.addMouseListener(new MouseAdapter() {
 			@Override
-			public void mouseClicked(MouseEvent arg0) {
+			public void mouseClicked(MouseEvent arg0) {				
 				lblPrecedent_clic();				
 			}
 			// Changement de forme de la souris :
@@ -178,7 +217,7 @@ public class ChoixJoueur extends JFrame {
 		JLabel lblSuivant = new JLabel("");
 		lblSuivant.addMouseListener(new MouseAdapter() {
 			@Override
-			public void mouseClicked(MouseEvent e) {
+			public void mouseClicked(MouseEvent e) {			
 				lblSuivant_clic();
 			}
 			// Changement de forme de la souris :
@@ -195,7 +234,7 @@ public class ChoixJoueur extends JFrame {
 		JLabel lblGo = new JLabel("");
 		lblGo.addMouseListener(new MouseAdapter() {
 			@Override
-			public void mouseClicked(MouseEvent e) {
+			public void mouseClicked(MouseEvent e) {				
 				lblGo_clic();				
 			}
 			// Changement de forme de la souris :
@@ -239,6 +278,8 @@ public class ChoixJoueur extends JFrame {
 		// Affichage du premier personnage :
 		selectedNumPerso = 1;
 		affichePerso(selectedNumPerso);
+		
+
 
 	}
 }
