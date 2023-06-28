@@ -31,7 +31,7 @@ public class JeuServeur extends Jeu {
 	/**
 	 * Collection de joueurs
 	 */
-	private Hashtable<Connection, Joueur> lesJoueurs = new Hashtable<Connection, Joueur>() ;
+	private Hashtable<Connection, Joueur> lesJoueurs = new Hashtable<Connection, Joueur>();
 	
 	/**
 	 * @return les joueurs du dictionnaire lesJoueurs :
@@ -162,10 +162,7 @@ public class JeuServeur extends Jeu {
 	 * Envoi du chat mis à jour à chaque joueur :
 	 */
 	@Override
-	public void envoi( Connection connexion, Object info) {	
-		
-		
-		
+	public void envoi( Connection connexion, Object info) {				
 		for (Connection laConnectDUnJoueur : Collections.list(lesJoueurs.keys())){						
 			super.envoi(laConnectDUnJoueur, info);
 			

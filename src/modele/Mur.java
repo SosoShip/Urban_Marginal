@@ -17,9 +17,7 @@ public class Mur extends Objet {
 	/**
 	 * Constructeur
 	 */
-	public Mur() {
-		
-		
+	public Mur() {				
 		// Nombres aléatoires pour placer les murs sur X et y :
 		int minX = 0 + Constante.tailleDesMurs;
 		int maxX = Constante.longeurArene;
@@ -33,11 +31,8 @@ public class Mur extends Objet {
 		
 		// label deffinissant les murs :
 		lblMur = new JLabel("");
-		lblMur.setBounds(getPosX(), getPosY(), Constante.tailleDesMurs, Constante.tailleDesMurs);
-		
-		String chemin = "murs\\mur.gif";
-		URL resource = getClass().getClassLoader().getResource(chemin);
-		lblMur.setIcon(new ImageIcon(resource));		
+		lblMur.setBounds(getPosX(), getPosY(), Constante.tailleDesMurs, Constante.tailleDesMurs);		
+		lblMur.setIcon(new ImageIcon(Constante.getInstance().iconMur));		
 		}
 	}
 			

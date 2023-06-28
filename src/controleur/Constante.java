@@ -1,11 +1,51 @@
 package controleur;
 
+import java.net.URL;
+import java.util.ArrayList;
+
+import javax.swing.ImageIcon;
+
+import outils.son.Son;
+
+
 /**
  * Mémorisation des constantes
  * @author Marjorie
  *
  */
-public class Constante {	
+public class Constante {
+	 private static Constante constante;
+	/**
+	 * Constructeur
+	 */
+	private Constante() {
+		//Son
+		soundfight = new Son(resourcefight);
+		soundhurt = new Son(resourcehurt);
+		sounddeath = new Son(resourcedeath);
+		soundWelcome = new Son(welcome);
+		soundPrevious = new Son(previous);
+		soundNext = new Son(next);
+		soundGo = new Son(Go);
+		soundAmbiance = new Son(ambiance);
+		
+		//Image
+		iconBoule = getClass().getClassLoader().getResource(chemin);
+		iconArene = getClass().getClassLoader().getResource(chemin2);
+		iconChoixJoueur = getClass().getClassLoader().getResource(chemin3);
+		iconMur = getClass().getClassLoader().getResource(chemin4);
+	}
+	
+	/**
+	 * retourne une constante non statique :
+	 */
+	 public static Constante getInstance() {
+	        if (constante == null) {
+	        	constante = new Constante();
+	        }
+	        return constante;	 
+	    }
+			
 	/**
 	 * N° du port de connexion du ServeurSocket:
 	 */
@@ -68,6 +108,10 @@ public class Constante {
 	 * ordre de réaliser l'action d'un joueur :
 	 */
 	public static final String ordreAction = "action";
+	/**
+	 * ordre de jouer une mélodie spécifique à une action :
+	 */
+	public static final String ordreJouerSon = "jouerSon";
 	
 	
 	/**
@@ -142,8 +186,50 @@ public class Constante {
 	public static final int longeurArene = 800- tailleDesMurs;
 	
 	
-
-	
 	//Mémorisation des chemins vers le fichier media
-
+	// Sons :	 
+	public String cheminfight = "sons\\fight.wav";
+	public URL resourcefight = getClass().getClassLoader().getResource(cheminfight);
+	public final Son soundfight;
+	
+	public String cheminhurt = "sons\\hurt.wav";
+	public URL resourcehurt = getClass().getClassLoader().getResource(cheminhurt);
+	public final Son soundhurt;
+	
+	public String chemindeath = "sons\\death.wav";
+	public URL resourcedeath = getClass().getClassLoader().getResource(chemindeath);
+	public final Son sounddeath;
+	
+	public String cheminWelcomme = "sons\\welcome.wav";
+	public URL welcome = getClass().getClassLoader().getResource(cheminWelcomme);
+	public final Son soundWelcome;
+	
+	public String cheminPrevious = "sons\\precedent.wav";
+	public URL previous = getClass().getClassLoader().getResource(cheminPrevious);
+	public final Son soundPrevious;
+	
+	public String cheminNext = "sons\\suivant.wav";
+	public URL next = getClass().getClassLoader().getResource(cheminNext);
+	public final Son soundNext;
+	
+	public String cheminGo = "sons\\go.wav";
+	public URL Go = getClass().getClassLoader().getResource(cheminGo);
+	public final Son soundGo;
+	
+	public String cheminAmbiance = "sons\\ambiance.wav";
+	public URL ambiance = getClass().getClassLoader().getResource(cheminAmbiance);
+	public final Son soundAmbiance;
+	
+	// Images :
+	public String chemin = "boules\\boule.gif";
+	public URL iconBoule;
+	
+	public String chemin2 = "fonds\\fondarene.jpg";
+	public URL iconArene;
+	
+	public String chemin3 = "fonds\\fondchoix.jpg";
+	public URL iconChoixJoueur;
+	
+	public String chemin4 = "murs\\mur.gif";
+	public URL iconMur;
 }

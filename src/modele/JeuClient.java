@@ -35,7 +35,7 @@ public class JeuClient extends Jeu {
 	@Override
 	public void reception(Connection connexion, Object info) {
 		// Test pour connaitre la nature de info :
-		// Si c'est un JPanel :
+
 		if (info instanceof JPanel) {
 			if(!mursOk) {
 				controleJeu.evenementJeuClient(Constante.ordreAjoutPanelMurs, info);
@@ -45,10 +45,15 @@ public class JeuClient extends Jeu {
 				controleJeu.evenementJeuClient(Constante.ordreAjoutTousLesLblJeu, info);
 			}
 		}
-		// Si c'est un Object :
+
 		if (info instanceof String) {
 			controleJeu.evenementJeuClient(Constante.modifChat, info);
 		}
+		
+		if (info instanceof Integer) {
+			controleJeu.evenementJeuClient(Constante.ordreJouerSon, info);
+		}
+		
 	}
 	
 	@Override

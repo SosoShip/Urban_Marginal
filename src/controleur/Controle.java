@@ -148,6 +148,9 @@ public class Controle implements AsyncResponse {
 		case Constante.modifChat:
 			arene.setTxtChat((String)info);
 			break;
+		case Constante.ordreJouerSon:
+			arene.joueSon((Integer)info);;
+			break;
 		default:
 			throw new IllegalArgumentException("Unexpected value: " + ordre);
 		}

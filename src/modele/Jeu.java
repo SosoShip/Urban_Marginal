@@ -40,7 +40,4 @@ public abstract class Jeu {
 	public void envoi( Connection connexion, Object info) {
 		controleJeu.envoi(connexion, info);
 	}
-	
-	
-	
 }

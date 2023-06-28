@@ -43,11 +43,8 @@ public class Boule extends Objet implements Runnable{
 		this.jeuServeur = jeuServeur;
 		this.lblBoule = new JLabel();
 		this.lblBoule.setVisible(false);
-		this.lblBoule.setBounds(0, 0, Constante.tailleBoule, Constante.tailleBoule);
-		
-		String chemin = "boules\\boule.gif";
-		URL resource = getClass().getClassLoader().getResource(chemin);
-		this.lblBoule.setIcon(new ImageIcon(resource));
+		this.lblBoule.setBounds(0, 0, Constante.tailleBoule, Constante.tailleBoule);		
+		this.lblBoule.setIcon(new ImageIcon(Constante.getInstance().iconBoule));
 	}
 	
 	/**
@@ -75,6 +72,8 @@ public class Boule extends Objet implements Runnable{
 
 	@Override
 	public void run() {
+		// Envoi musique d'une boule lancée :
+		this.jeuServeur.envoi(null, 0);	
 		// retourne le joueur touché par un boule :
 		Joueur victime = null;
 		// la boule touche un mur :
@@ -101,6 +100,9 @@ public class Boule extends Objet implements Runnable{
 		}	
 		// Gestion des joueurs :
 		if (victime != null && !victime.estMort()) {
+			// envoi musique joueur touché :
+			this.jeuServeur.envoi(null, 1);	
+			
 			victime.perteVie();
 			
 			// Joueur victorieux :
@@ -116,6 +118,9 @@ public class Boule extends Objet implements Runnable{
 			
 			// Affichage du joeur mort :
 			if (victime.estMort()) {
+				// envoi musique joueur touché :
+				this.jeuServeur.envoi(null, 2);	
+				
 				for (Integer deathIndex = 1; deathIndex <= 2; deathIndex ++) {
 					victime.affiche(Constante.mort, deathIndex, victime.getOrientation());
 					pause();

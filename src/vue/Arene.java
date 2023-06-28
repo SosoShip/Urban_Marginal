@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.event.KeyEvent;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -14,9 +15,12 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
+import controleur.Constante;
 import controleur.Controle;
 import modele.JeuClient;
 import modele.Mur;
+import outils.son.Son;
+
 import java.awt.event.KeyAdapter;
 
 /**
@@ -47,6 +51,10 @@ public class Arene extends JFrame {
 	 */
 	private JPanel jpnJeu;
 	/**
+	 * Liste des sons :
+	 */
+	private ArrayList<Son> listAttackSon = new ArrayList<>();
+	/**
 	 * Communication avec la classe Controle
 	 */
 	private Controle controleJeu;
@@ -68,6 +76,7 @@ public class Arene extends JFrame {
 		this.contentPane = new JPanel();
 		setContentPane(this.contentPane);
 		this.contentPane.setLayout(null);
+		Constante.getInstance().soundAmbiance.playContinue();
 			
 		if (this.controleJeu.isClient()) {
 			// Ecoute du déplacement sur le JPanel contentPane:
@@ -80,7 +89,11 @@ public class Arene extends JFrame {
 						controleJeu.evenementArene((Object)e.getKeyCode());
 					}					
 				}
-			});
+			});			
+			// Remplissage de la listes des sons d'attaque:
+			listAttackSon.add(Constante.getInstance().soundfight);
+			listAttackSon.add(Constante.getInstance().soundhurt);
+			listAttackSon.add(Constante.getInstance().sounddeath);
 		}
 		
 		
@@ -141,11 +154,9 @@ public class Arene extends JFrame {
 			}
 		});
 		
-		
-		JLabel lblFond = new JLabel("");
-		String chemin = "fonds\\fondarene.jpg";
-		URL resource = getClass().getClassLoader().getResource(chemin);
-		lblFond.setIcon(new ImageIcon(resource));		
+		// Visuel de l'arene :
+		JLabel lblFond = new JLabel("");		
+		lblFond.setIcon(new ImageIcon(Constante.getInstance().iconArene));			
 		lblFond.setBounds(0, 0, 800, 600);
 		this.contentPane.add(lblFond);		
 	}
@@ -157,6 +168,7 @@ public class Arene extends JFrame {
 	public void ajoutMurs(Object unMur) {
 		getJpnMurs().add((JLabel)unMur);
 	}
+	
 	/**
 	 * Ajoute le label d'un personnage dans l'arene :
 	 * @param lblPerso
@@ -165,8 +177,9 @@ public class Arene extends JFrame {
 		getJpnJeu().add((JLabel)lblPerso);
 		getJpnJeu().repaint();
 	}
+	
 	/**
-	 * Ajoute le texte dsais par un joueur au tchat :
+	 * Ajoute le texte saisi par un joueur dans tchat :
 	 * @param textSaisi
 	 * @return getTxtChat()
 	 */
@@ -174,7 +187,11 @@ public class Arene extends JFrame {
 		this.setTxtChat(getTxtChat() + "\r\n" + textSaisi + "\r\n");
 		return getTxtChat();
 	}	
-
+	
+	public void joueSon (Integer musicNumber){
+		listAttackSon.get(musicNumber).play();
+	}
+	
 	/**
 	 * getter panel Mur :
 	 * @return jpnMurs
