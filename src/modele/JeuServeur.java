@@ -125,7 +125,9 @@ public class JeuServeur extends Jeu {
 	}
 	
 	@Override
-	public void deconnexion() {
+	public void deconnexion(Connection connexion) {
+		lesJoueurs.get(connexion).departJoueur();
+		lesJoueurs.remove(connexion);
 	}
 
 	/**
@@ -138,6 +140,7 @@ public class JeuServeur extends Jeu {
 			unMur.objectHeightY = Constante.tailleDesMurs;
 			lesMurs.add(unMur);
 			controleJeu.evenementJeuServeur(Constante.ordreAjoutMur, (Object)unMur.lblMur);
+			//envoiJeuATous();
 		}	
 	}
 	

@@ -29,8 +29,9 @@ public abstract class Jeu {
 	
 	/**
 	 * D�connexion de l'ordinateur distant:
+	 * @param connexion : Connection
 	 */
-	public abstract void deconnexion() ;
+	public abstract void deconnexion(Connection connexion);
 	
 	/**
 	 * Envoi d'une information vers un ordinateur distant:

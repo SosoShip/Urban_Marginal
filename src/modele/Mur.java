@@ -21,13 +21,13 @@ public class Mur extends Objet {
 		// Nombres aléatoires pour placer les murs sur X et y :
 		int minX = 0 + Constante.tailleDesMurs;
 		int maxX = Constante.longeurArene;
-		posX = Common.randXY(minX, maxX);
-		this.objectLengthX = getPosX();
+		this.setPosX(Common.randXY(minX, maxX));
+		this.objectLengthX = Constante.tailleDesMurs;
 
 		int minY = 0 + Constante.tailleDesMurs;
 		int maxY = Constante.hauteurArene;
-		posY = Common.randXY(minY, maxY);
-		this.objectHeightY = getPosY();
+		this.setPosY(Common.randXY(minY, maxY));
+		this.objectHeightY = Constante.tailleDesMurs;
 		
 		// label deffinissant les murs :
 		lblMur = new JLabel("");

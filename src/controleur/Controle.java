@@ -89,8 +89,7 @@ public class Controle implements AsyncResponse {
 		else {
 			leJeu = new JeuClient(this);
 			ClientSocket clientSocket = new ClientSocket(this, info, port);			
-		}
-		
+		}		
 	}
 	
 	/**
@@ -194,6 +193,10 @@ public class Controle implements AsyncResponse {
 		// Reception de la connection (serveur ou client) :	
 		case Constante.lareception:	
 			leJeu.reception(connexion, info);
+			break;
+		// Deconnection d'un joueur :
+		case Constante.laDeConnexion:
+			leJeu.deconnexion(connexion);
 			break;
 		}
 		

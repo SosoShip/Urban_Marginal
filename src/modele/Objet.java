@@ -105,5 +105,19 @@ public abstract class Objet<get> {
 	protected int getPosY() {
 		return posY;
 	}
+
+	/**
+	 * @param posX the posX to set
+	 */
+	protected void setPosX(int posX) {
+		this.posX = posX;
+	}
+
+	/**
+	 * @param posY the posY to set
+	 */
+	protected void setPosY(int posY) {
+		this.posY = posY;
+	}
 	
 }

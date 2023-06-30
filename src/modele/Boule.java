@@ -58,14 +58,14 @@ public class Boule extends Objet implements Runnable{
 		// Joueur orienté a droite :
 		if (leJoueur.getOrientation() == 1) {
 			directionBoule = Constante.vitesseBoule;
-			this.posX = leJoueur.getPosX() + Constante.largeurJoueurs + 1;
-			this.posY = leJoueur.getPosY() + 15;
+			this.setPosX(leJoueur.getPosX() + Constante.largeurJoueurs + 1);
+			this.setPosY(leJoueur.getPosY() + 15);
 		}
 		// Joueur orienté a gauche :
 		else {
 			directionBoule = - Constante.vitesseBoule;
-			this.posX = leJoueur.getPosX() - 10;
-			this.posY = leJoueur.getPosY() + 15;
+			this.setPosX(leJoueur.getPosX() - 10);
+			this.setPosY(leJoueur.getPosY() + 15);
 		}
 		new Thread(this).start();	
 	}
@@ -87,7 +87,7 @@ public class Boule extends Objet implements Runnable{
 		// Gestion du déplacement et des collisions :
 		while (victime == null && !isTouchMur && this.posX >= 0 + Constante.tailleDesMurs && this.posX <= Constante.longeurArene) {
 			// Déplacement et affichage de la boule :
-  			this.posX = this.posX + directionBoule;
+  			this.setPosX(this.posX + directionBoule);
 			this.lblBoule.setBounds(this.getPosX(), this.getPosY(), Constante.tailleBoule, Constante.tailleBoule);
 			this.jeuServeur.envoiJeuATous();
 			

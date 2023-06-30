@@ -123,11 +123,11 @@ public class Joueur extends Objet {
 			// Nombres aléatoires pour placer les joueurs sur X et y :
 			int minX = 0 + Constante.largeurJoueurs;
 			int maxX = Constante.longeurArene - Constante.largeurJoueurs;
-			this.posX = Common.randXY(minX, maxX);
+			this.setPosX(Common.randXY(minX, maxX));
 
 			int minY = 0 + Constante.hauteurJoueurs;
 			int maxY = Constante.hauteurArene - Constante.hauteurJoueurs;
-			this.posY = Common.randXY(minY, maxY);	
+			this.setPosY(Common.randXY(minY, maxY));	
 			
 			isTouchMur = super.toucheMur(lesMurs);
 			isTouchJoueur = this.toucheJoueur(lesJoueurs);
@@ -161,59 +161,59 @@ public class Joueur extends Objet {
 	 * @param lesJoueurs : ArrayList<Connection> : liste des joueurs :
 	 */
 	public void actionDeplacement(Integer mouv, ArrayList<Mur> lesMurs, Collection<Joueur> lesJoueurs) {
-		// a la fin de conception méthode action voir si pertinent mutualiser setbounds et affiche
-
-		switch (mouv) {
-		// Down :
-		case KeyEvent.VK_DOWN :
-			this.posY = this.getPosY() + Constante.tailleDUnPas;
-			
-			if ((this.sortDeLArene(this.getPosX(),this.getPosY())) 
+		if(! estMort()) {
+			switch (mouv) {
+			// Down :
+			case KeyEvent.VK_DOWN :
+				this.setPosY(this.getPosY() + Constante.tailleDUnPas);
+				
+				if ((this.sortDeLArene(this.getPosX(),this.getPosY())) 
+						|| (super.toucheMur(lesMurs))
+						|| (this.toucheJoueur(lesJoueurs))) {
+					this.setPosY(this.getPosY() - Constante.tailleDUnPas);
+				}				
+				break;
+				
+			// Up :
+			case KeyEvent.VK_UP :
+				this.setPosY(this.getPosY() - Constante.tailleDUnPas);
+				if ((this.sortDeLArene(this.getPosX(),this.getPosY()))
 					|| (super.toucheMur(lesMurs))
 					|| (this.toucheJoueur(lesJoueurs))) {
-				this.posY = this.getPosY() - Constante.tailleDUnPas;
-			}				
-			break;
+					this.setPosY(this.getPosY() + Constante.tailleDUnPas);
+				}				
+				break;
+				
+			// Left :
+			case KeyEvent.VK_LEFT :
+				orientation = 0;
+				this.setPosX(this.getPosX() - Constante.tailleDUnPas);
+				if ((this.sortDeLArene(this.getPosX(),this.getPosY()))
+						|| (super.toucheMur(lesMurs))
+						|| (this.toucheJoueur(lesJoueurs))) {
+					this.setPosX(this.getPosX() + Constante.tailleDUnPas);
+				}				
+				break;
+				
+			// Right :
+			case KeyEvent.VK_RIGHT :
+				orientation = 1;
+				this.setPosX(this.getPosX() + Constante.tailleDUnPas);
+				if ((this.sortDeLArene(this.getPosX(),this.getPosY()))
+						|| (super.toucheMur(lesMurs))
+						|| (this.toucheJoueur(lesJoueurs))) {
+					this.setPosX(this.getPosX() - Constante.tailleDUnPas);
+				}				
+				break;		
+				
+			default:
+				throw new IllegalArgumentException("Unexpected value: ");			
+			}
 			
-		// Up :
-		case KeyEvent.VK_UP :
-			this.posY = this.getPosY() - Constante.tailleDUnPas;
-			if ((this.sortDeLArene(this.getPosX(),this.getPosY()))
-				|| (super.toucheMur(lesMurs))
-				|| (this.toucheJoueur(lesJoueurs))) {
-				this.posY = this.getPosY() + Constante.tailleDUnPas;
-			}				
-			break;
-			
-		// Left :
-		case KeyEvent.VK_LEFT :
-			orientation = 0;
-			this.posX = this.getPosX() - Constante.tailleDUnPas;
-			if ((this.sortDeLArene(this.getPosX(),this.getPosY()))
-					|| (super.toucheMur(lesMurs))
-					|| (this.toucheJoueur(lesJoueurs))) {
-				this.posX = this.getPosX() + Constante.tailleDUnPas;
-			}				
-			break;
-			
-		// Right :
-		case KeyEvent.VK_RIGHT :
-			orientation = 1;
-			this.posX = this.getPosX() + Constante.tailleDUnPas;
-			if ((this.sortDeLArene(this.getPosX(),this.getPosY()))
-					|| (super.toucheMur(lesMurs))
-					|| (this.toucheJoueur(lesJoueurs))) {
-				this.posX = this.getPosX() - Constante.tailleDUnPas;
-			}				
-			break;		
-			
-		default:
-			throw new IllegalArgumentException("Unexpected value: ");			
-		}
-		
-		//Affichage du joueur :
-		this.courseDuJoueur(this.getPosX(), this.getPosY());
-		this.affiche(Constante.marche, etape, getOrientation());
+			//Affichage du joueur :
+			this.courseDuJoueur(this.getPosX(), this.getPosY());
+			this.affiche(Constante.marche, etape, getOrientation());
+		}	
 	}
 	
 	/**
@@ -222,12 +222,14 @@ public class Joueur extends Objet {
 	 * @param lesJoueurs : ArrayList<Connection> : liste des joueurs :
 	 */
 	public void actionTir(ArrayList<Mur> lesMurs, Collection<Joueur> lesJoueurs) {
-		// Verification qu'une boule n'est pas déja tirée :
-		if (!boule.lblBoule.isVisible()) {
-			boule.tirBoule(this, lesMurs);
-			this.etape = 1;
-			this.affiche(Constante.marche, etape, getOrientation());
-		}				
+		if(! estMort()) {
+			// Verification qu'une boule n'est pas déja tirée :
+			if (!boule.lblBoule.isVisible()) {
+				boule.tirBoule(this, lesMurs);
+				this.etape = 1;
+				this.affiche(Constante.marche, etape, getOrientation());
+			}
+		}						
 	}
 		
 	/**
@@ -316,6 +318,16 @@ public class Joueur extends Objet {
 	 * Le joueur se d�connecte et disparait
 	 */
 	public void departJoueur() {
+		if(this.lblJoueur != null) {
+			this.lblJoueur.setVisible(false);
+		}
+		if(this.lblMessage != null) {
+			this.lblMessage.setVisible(false);
+		}
+		if (this.lblBoule != null) {
+			this.lblBoule.setVisible(false);
+		}
+		jeuServeur.envoiJeuATous();
 	}
 
 	/**
